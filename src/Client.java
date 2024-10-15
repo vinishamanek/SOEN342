@@ -6,12 +6,13 @@ public class Client extends User {
         super(email, password);
     }
 
-    // Method to make a booking
     public void makeBooking(String offering) {
-        // define
+        // client can book an offering
+        // method will be defined later on
     }
 
     public void cancelBooking(String offering) {
-        // define
+        // client can cancel a booking they've made
+        // method will be defined later on    
     }
 }

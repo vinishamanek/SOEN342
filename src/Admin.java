@@ -1,10 +1,10 @@
-// unsure about all of this, but i did a singleton sort of vibe since only 1 admin
+// admin implemented as singleton class for now because only 1 admin allowed
 
 public class Admin extends User {
 
     private static Admin instance = null;
 
-    private Admin(String email, String password) { // made constructor private for now since only one should be created?
+    private Admin(String email, String password) { 
         super(email, password);
     }
 
@@ -15,12 +15,15 @@ public class Admin extends User {
         return instance;
     }
 
-    public void createOffering() {
-        // lesson, capacity, location, timeslot
+    public void createOffering(Lesson lesson, int capacity, Location location, TimeSlot timeslot) {
+        Offering offering = new Offering(lesson, capacity, location, timeslot);
+        System.out.println("Offering created successfully:");
+        System.out.println(offering);
     }
 
     public void deleteAccount(User user) {
-        // delete account
+        // admin can delete account of instructor or client
+        // method will be defined later on
         // System.out.println("Account deleted for: " + user.getEmail());
     }
 
