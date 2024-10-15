@@ -53,5 +53,15 @@ public class Offering {
         return offerings;
     }
 
+    @Override
+    public String toString() {
+        return "Offering Details: \n" +
+               "Lesson: " + lesson.getName() + "\n" +
+               "Capacity: " + capacity + "\n" +
+               "Location: " + location.getName() + ", " + location.getCity().getName() + "\n" +
+               "Day: " + timeslot.getDayOfWeek() + "\n" +
+               "Start Time: " + timeslot.getStartTime() + "\n" +
+               "End Time: " + timeslot.getEndTime();
+    }
     
 }

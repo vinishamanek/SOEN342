@@ -1,3 +1,4 @@
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -107,18 +108,28 @@ public class Console {
         }
     }
 
-    // need to review this method
     // parse String input to LocalTime used for TimeSlot (startTime and endTime)
-    public LocalTime parseTime(String timeInput) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-
-        try {
-            return LocalTime.parse(timeInput, formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid time format. Please enter the time in the format 'hh:mm AM/PM'.");
-            return null;
+    private LocalTime parseTime(String timeInput) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", java.util.Locale.US);
+        
+        while (true) {
+            try {
+                timeInput = timeInput.trim().toUpperCase();
+                
+                LocalTime time = LocalTime.parse(timeInput, formatter);
+                return time;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid time format. Please enter the time in the format 'h:mm AM/PM'.");
+                System.out.print("Enter time again (e.g., 9:00 AM): ");
+                timeInput = scanner.nextLine().trim();
+            }
         }
     }
+    
+        
+    
+
+    
 
     private void instructorMenu() {
         Instructor instructor = (Instructor) this.user;
@@ -137,7 +148,7 @@ public class Console {
 
                     if (offerings.isEmpty()) {
                         System.out.println("No offerings available to select.");
-                        continue; 
+                        continue;
                     }
 
                     System.out.println("Available Offerings:");
@@ -150,11 +161,11 @@ public class Console {
 
                     if (selectedNumber < 1 || selectedNumber > offerings.size()) {
                         System.out.println("Invalid selection. Please select a number between 1 and " + offerings.size() + ".");
-                        continue; 
+                        continue;
                     }
 
                     Offering selectedOffering = offerings.get(selectedNumber - 1);
-                    instructor.selectOffering(selectedOffering); 
+                    instructor.selectOffering(selectedOffering);
 
                 } else {
                     System.out.println("Returning to the instructor menu...");
