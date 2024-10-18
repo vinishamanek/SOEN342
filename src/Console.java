@@ -20,12 +20,14 @@ public class Console {
         if (this.user == null) {
             this.login();
         }
-        while (true) {
-            String input = prompt();
-            if (input.equals("exit")) {
-                break;
-            }
-            System.out.println(input);
+        if (this.user instanceof Admin) {
+            adminMenu();
+        } else if (this.user instanceof Instructor) {
+            instructorMenu();
+        } else if (this.user instanceof Client) {
+            clientMenu();
+        } else {
+            throw new RuntimeException("Role not recognized.");
         }
     }
 
@@ -36,18 +38,9 @@ public class Console {
             System.out.println("What is your password?");
             String password = prompt();
             this.user = User.login(email, password);
-            System.out.println(user);
-            System.out.println("Welcome " + user.getEmail());
             if (this.user != null) {
-                if (this.user instanceof Admin) {
-                    adminMenu();
-                } else if (this.user instanceof Instructor) {
-                    instructorMenu();
-                } else if (this.user instanceof Client) {
-                    clientMenu();
-                } else {
-                    System.out.println("role not recognized.");
-                }
+                System.out.println("Welcome " + user.getEmail());
+                return;
             }
             System.out.println("Invalid credentials. Please try again.");
         }
@@ -68,7 +61,8 @@ public class Console {
                 List<Location> locations = Location.getLocations();
                 System.out.println("Available Locations:");
                 for (int i = 0; i < locations.size(); i++) {
-                    System.out.println((i + 1) + ". " + locations.get(i).getName() + ", " + locations.get(i).getCity().getName());
+                    System.out.println(
+                            (i + 1) + ". " + locations.get(i).getName() + ", " + locations.get(i).getCity().getName());
                 }
 
                 System.out.println("Please enter the number of the location you want to select: ");
@@ -111,11 +105,11 @@ public class Console {
     // parse String input to LocalTime used for TimeSlot (startTime and endTime)
     private LocalTime parseTime(String timeInput) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", java.util.Locale.US);
-        
+
         while (true) {
             try {
                 timeInput = timeInput.trim().toUpperCase();
-                
+
                 LocalTime time = LocalTime.parse(timeInput, formatter);
                 return time;
             } catch (DateTimeParseException e) {
@@ -125,57 +119,43 @@ public class Console {
             }
         }
     }
-    
-        
-    
-
-    
 
     private void instructorMenu() {
         Instructor instructor = (Instructor) this.user;
-
         while (true) {
-            System.out.println("Would you like to view available offerings? (yes/no)");
-            String input = prompt();
+            System.out.println("v: view available offerings | s: select offering | e: logout");
+            char operation = prompt().toLowerCase().charAt(0);
 
-            if (input.equalsIgnoreCase("yes")) {
-                instructor.viewAvailableInstructorOfferings();
-
-                System.out.println("Would you like to select an offering? (yes/no)");
-                String selectInput = prompt();
-                if (selectInput.equalsIgnoreCase("yes")) {
+            switch (operation) {
+                case 'v':
+                    instructor.viewAvailableInstructorOfferings();
+                    break;
+                case 's':
                     List<Offering> offerings = Offering.getOfferings();
-
                     if (offerings.isEmpty()) {
                         System.out.println("No offerings available to select.");
                         continue;
                     }
-
                     System.out.println("Available Offerings:");
                     for (int i = 0; i < offerings.size(); i++) {
                         System.out.println((i + 1) + ". " + offerings.get(i).getLesson().getName());
                     }
-
                     System.out.println("Please enter the number of the offering you'd like to select:");
                     int selectedNumber = Integer.parseInt(prompt());
-
                     if (selectedNumber < 1 || selectedNumber > offerings.size()) {
-                        System.out.println("Invalid selection. Please select a number between 1 and " + offerings.size() + ".");
+                        System.out.println(
+                                "Invalid selection. Please select a number between 1 and " + offerings.size() + ".");
                         continue;
                     }
-
                     Offering selectedOffering = offerings.get(selectedNumber - 1);
                     instructor.selectOffering(selectedOffering);
-
-                } else {
-                    System.out.println("Returning to the instructor menu...");
-                }
-
-            } else if (input.equalsIgnoreCase("no")) {
-                System.out.println("Exiting instructor menu...");
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                    break;
+                case 'e':
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid operation. Please enter 'v', 's', or 'e'.");
+                    break;
             }
         }
     }
