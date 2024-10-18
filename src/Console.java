@@ -48,56 +48,59 @@ public class Console {
 
     private void adminMenu() {
         while (true) {
-            System.out.println("Do you want to create an offering? (yes/no)");
-            String input = prompt();
+            System.out.println("c: create offering | e: logout");
+            char operation = prompt().toLowerCase().charAt(0);
 
-            if (input.equalsIgnoreCase("yes")) {
-                System.out.println("Enter lesson name: ");
-                String lessonName = prompt();
+            switch (operation) {
+                case 'c':
+                    System.out.println("Enter lesson name: ");
+                    String lessonName = prompt();
 
-                System.out.println("Enter capacity: ");
-                int capacity = Integer.parseInt(prompt());
+                    System.out.println("Enter capacity: ");
+                    int capacity = Integer.parseInt(prompt());
 
-                List<Location> locations = Location.getLocations();
-                System.out.println("Available Locations:");
-                for (int i = 0; i < locations.size(); i++) {
-                    System.out.println(
-                            (i + 1) + ". " + locations.get(i).getName() + ", " + locations.get(i).getCity().getName());
-                }
+                    List<Location> locations = Location.getLocations();
+                    System.out.println("Available Locations:");
+                    for (int i = 0; i < locations.size(); i++) {
+                        System.out.println(
+                                (i + 1) + ". " + locations.get(i).getName() + ", "
+                                        + locations.get(i).getCity().getName());
+                    }
 
-                System.out.println("Please enter the number of the location you want to select: ");
-                int locationIndex = Integer.parseInt(prompt()) - 1;
+                    System.out.println("Please enter the number of the location you want to select: ");
+                    int locationIndex = Integer.parseInt(prompt()) - 1;
 
-                if (locationIndex < 0 || locationIndex >= locations.size()) {
-                    System.out.println("Invalid location selection. Please try again.");
-                    continue;
-                }
+                    if (locationIndex < 0 || locationIndex >= locations.size()) {
+                        System.out.println("Invalid location selection. Please try again.");
+                        continue;
+                    }
 
-                Location selectedLocation = locations.get(locationIndex);
+                    Location selectedLocation = locations.get(locationIndex);
 
-                System.out.println("Enter day of the week (e.g., Monday): ");
-                String dayInput = prompt().toUpperCase();
-                DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayInput);
+                    System.out.println("Enter day of the week (e.g., Monday): ");
+                    String dayInput = prompt().toUpperCase();
+                    DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayInput);
 
-                System.out.println("Enter start time (e.g., 9:00 AM): ");
-                String startTimeInput = prompt();
-                LocalTime startTime = parseTime(startTimeInput);
+                    System.out.println("Enter start time (e.g., 9:00 AM): ");
+                    String startTimeInput = prompt();
+                    LocalTime startTime = parseTime(startTimeInput);
 
-                System.out.println("Enter end time (e.g., 11:00 AM): ");
-                String endTimeInput = prompt();
-                LocalTime endTime = parseTime(endTimeInput);
+                    System.out.println("Enter end time (e.g., 11:00 AM): ");
+                    String endTimeInput = prompt();
+                    LocalTime endTime = parseTime(endTimeInput);
 
-                Lesson lesson = new Lesson(lessonName);
-                TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
+                    Lesson lesson = new Lesson(lessonName);
+                    TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
 
-                Admin admin = (Admin) this.user;
-                admin.createOffering(lesson, capacity, selectedLocation, timeslot);
-
-            } else if (input.equalsIgnoreCase("no")) {
-                System.out.println("Returning to main menu...");
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                    Admin admin = (Admin) this.user;
+                    admin.createOffering(lesson, capacity, selectedLocation, timeslot);
+                    break;
+                case 'e':
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid operation. Please enter 'c' or 'e'.");
+                    break;
             }
         }
     }
