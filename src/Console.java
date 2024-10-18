@@ -12,7 +12,7 @@ public class Console {
     private Scanner scanner;
 
     public Console(User user) {
-        this.user = user;
+        this.setUser(user);
         this.scanner = new Scanner(System.in);
     }
 
@@ -37,7 +37,7 @@ public class Console {
             String email = prompt();
             System.out.println("What is your password?");
             String password = prompt();
-            this.user = User.login(email, password);
+            this.setUser(User.login(email, password));
             if (this.user != null) {
                 System.out.println("Welcome " + user.getEmail());
                 return;
@@ -180,6 +180,10 @@ public class Console {
 
     public void cleanup() {
         scanner.close();
+    }
+
+    private void setUser(User user) {
+        this.user = user;
     }
 
 }
