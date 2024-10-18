@@ -4,13 +4,13 @@ public class Admin extends User {
 
     private static Admin instance = null;
 
-    private Admin(String email, String password) { 
-        super(email, password);
+    private Admin(String email, String password, Organization organization) {
+        super(email, password, organization);
     }
 
-    public static Admin getInstance(String email, String password) {
+    public static Admin getInstance(String email, String password, Organization organization) {
         if (instance == null) {
-            instance = new Admin(email, password);
+            instance = new Admin(email, password, organization);
         }
         return instance;
     }
