@@ -36,13 +36,10 @@ public class Instructor extends User {
 
     public void selectOffering(Offering offering) {
         if (offering == null) {
-            System.out.println("Invalid offering. Please select a valid offering.");
-            return;
+            throw new IllegalArgumentException("Offering cannot be null");
         }
-
+        offering.assignInstructor(this);
         assignedOfferings.add(offering);
-        System.out.println("You have selected the following offering:");
-        System.out.println(offering);
     }
 
 }

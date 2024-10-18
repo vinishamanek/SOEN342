@@ -157,13 +157,17 @@ public class Console {
                     }
                     System.out.println("Please enter the number of the offering you'd like to select:");
                     int selectedNumber = 0;
-                    while (selectedNumber < 1 || selectedNumber > offerings.size()) {
+                    while (true) {
                         selectedNumber = Integer.parseInt(prompt());
+                        if (selectedNumber >= 1 && selectedNumber <= offerings.size())
+                            break;
                         System.out.println(
                                 "Invalid selection. Please select a number between 1 and " + offerings.size() + ".");
                     }
                     Offering selectedOffering = offerings.get(selectedNumber - 1);
                     instructor.selectOffering(selectedOffering);
+                    System.out.println("You have selected the following offering:");
+                    System.out.println(selectedOffering);
                     break;
                 case 'e':
                     System.out.println("Logging out...");

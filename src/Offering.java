@@ -4,6 +4,8 @@ public class Offering {
     private Location location;
     private TimeSlot timeslot;
 
+    private Instructor instructor = null;
+
     public Offering(Lesson lesson, int capacity, Location location, TimeSlot timeslot) {
         this.lesson = lesson;
         this.capacity = capacity;
@@ -35,6 +37,21 @@ public class Offering {
                 "Day: " + timeslot.getDayOfWeek() + "\n" +
                 "Start Time: " + timeslot.getStartTime() + "\n" +
                 "End Time: " + timeslot.getEndTime();
+    }
+
+    public void assignInstructor(Instructor instructor) {
+        if (this.hasInstructor()) {
+            throw new IllegalStateException("Instructor already assigned to this offering.");
+        }
+        this.instructor = instructor;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public boolean hasInstructor() {
+        return instructor != null;
     }
 
 }
