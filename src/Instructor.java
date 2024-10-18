@@ -42,13 +42,7 @@ public class Instructor extends User {
 
         assignedOfferings.add(offering);
         System.out.println("You have selected the following offering:");
-        System.out.println("Lesson: " + offering.getLesson().getName());
-        System.out.println("Capacity: " + offering.getCapacity());
-        System.out.println(
-                "Location: " + offering.getLocation().getName() + ", " + offering.getLocation().getCity().getName());
-        System.out.println("Day: " + offering.getTimeSlot().getDayOfWeek());
-        System.out.println("Start Time: " + offering.getTimeSlot().getStartTime());
-        System.out.println("End Time: " + offering.getTimeSlot().getEndTime());
+        System.out.println(offering);
     }
 
 }

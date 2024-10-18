@@ -156,11 +156,11 @@ public class Console {
                         System.out.println((i + 1) + ". " + offerings.get(i).getLesson().getName());
                     }
                     System.out.println("Please enter the number of the offering you'd like to select:");
-                    int selectedNumber = Integer.parseInt(prompt());
-                    if (selectedNumber < 1 || selectedNumber > offerings.size()) {
+                    int selectedNumber = 0;
+                    while (selectedNumber < 1 || selectedNumber > offerings.size()) {
+                        selectedNumber = Integer.parseInt(prompt());
                         System.out.println(
                                 "Invalid selection. Please select a number between 1 and " + offerings.size() + ".");
-                        continue;
                     }
                     Offering selectedOffering = offerings.get(selectedNumber - 1);
                     instructor.selectOffering(selectedOffering);
