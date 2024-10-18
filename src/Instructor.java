@@ -4,11 +4,11 @@ import java.util.List;
 
 public class Instructor extends User {
 
-    private String[] availableCities; // list or array? tbd
+    private List<City> availableCities; // list or array? tbd
     private String specialization; // if can have more than one, make array or list
     private List<Offering> assignedOfferings;
 
-    public Instructor(String email, String password, Organization organization, String[] availableCities,
+    public Instructor(String email, String password, Organization organization, List<City> availableCities,
             String specializations) {
         super(email, password, organization);
         this.availableCities = availableCities;
@@ -21,7 +21,7 @@ public class Instructor extends User {
         return specialization;
     }
 
-    public String[] getAvailableCities() {
+    public List<City> getAvailableCities() {
         return availableCities;
     }
 
@@ -29,26 +29,9 @@ public class Instructor extends User {
         return assignedOfferings;
     }
 
-    public void viewAvailableInstructorOfferings() {
-        List<Offering> offerings = Offering.getOfferings();
-        if (offerings.isEmpty()) {
-            System.out.println("No offerings available.");
-            return;
-        }
-
-        System.out.println("Available Offerings:");
-        int number = 1;
-        for (Offering offering : offerings) {
-            System.out.println("Offering Number: " + number++);
-            System.out.println("Lesson: " + offering.getLesson().getName());
-            System.out.println("Capacity: " + offering.getCapacity());
-            System.out.println("Location: " + offering.getLocation().getName() + ", "
-                    + offering.getLocation().getCity().getName());
-            System.out.println("Day: " + offering.getTimeSlot().getDayOfWeek());
-            System.out.println("Start Time: " + offering.getTimeSlot().getStartTime());
-            System.out.println("End Time: " + offering.getTimeSlot().getEndTime());
-            System.out.println("-----------------------------------");
-        }
+    public List<Offering> getAvailableInstructorOfferings() {
+        List<Offering> offerings = this.getOrganization().getAvailableInstructorOfferings(this);
+        return offerings;
     }
 
     public void selectOffering(Offering offering) {

@@ -17,4 +17,8 @@ public class Lesson {
         Offering offering = new Offering(this, capacity, location, timeSlot);
         offerings.add(offering);
     }
+
+    public List<Offering> getOfferings() {
+        return offerings;
+    }
 }

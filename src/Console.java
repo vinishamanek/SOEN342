@@ -59,7 +59,7 @@ public class Console {
                     System.out.println("Enter capacity: ");
                     int capacity = Integer.parseInt(prompt());
 
-                    List<Location> locations = Location.getLocations();
+                    List<Location> locations = this.user.getOrganization().getOwnedSpaces();
                     System.out.println("Available Locations:");
                     for (int i = 0; i < locations.size(); i++) {
                         System.out.println(
@@ -132,10 +132,21 @@ public class Console {
 
             switch (operation) {
                 case 'v':
-                    instructor.viewAvailableInstructorOfferings();
+                    List<Offering> availableOfferings = instructor.getAvailableInstructorOfferings();
+                    if (availableOfferings.isEmpty()) {
+                        System.out.println("No offerings available.");
+                    } else {
+                        System.out.println("Available Offerings:");
+                        int number = 1;
+                        for (Offering offering : availableOfferings) {
+                            System.out.println("Offering Number: " + number++);
+                            System.out.println(offering);
+                            System.out.println("-----------------------------------");
+                        }
+                    }
                     break;
                 case 's':
-                    List<Offering> offerings = Offering.getOfferings();
+                    List<Offering> offerings = instructor.getAvailableInstructorOfferings();
                     if (offerings.isEmpty()) {
                         System.out.println("No offerings available to select.");
                         continue;
