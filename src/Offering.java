@@ -1,8 +1,3 @@
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Offering {
     private Lesson lesson;
     private int capacity;
