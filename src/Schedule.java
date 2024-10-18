@@ -11,4 +11,13 @@ public class Schedule {
     public List<TimeSlot> getTimeSlots() {
         return timeSlots;
     }
+
+    public void addTimeSlot(TimeSlot timeSlot) {
+        for (TimeSlot slot : timeSlots) {
+            if (slot.overlapsWith(timeSlot)) {
+                throw new RuntimeException("Time slot overlaps with existing time slot.");
+            }
+        }
+        timeSlots.add(timeSlot);
+    }
 }

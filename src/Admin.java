@@ -16,9 +16,7 @@ public class Admin extends User {
     }
 
     public void createOffering(Lesson lesson, int capacity, Location location, TimeSlot timeslot) {
-        Offering offering = new Offering(lesson, capacity, location, timeslot);
-        System.out.println("Offering created successfully:");
-        System.out.println(offering);
+        this.getOrganization().createOffering(lesson, capacity, location, timeslot);
     }
 
     public void deleteAccount(User user) {

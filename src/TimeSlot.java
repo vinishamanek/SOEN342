@@ -3,7 +3,7 @@ import java.time.LocalTime;
 
 public class TimeSlot {
     private DayOfWeek day;
-    private LocalTime startTime; 
+    private LocalTime startTime;
     private LocalTime endTime;
 
     public TimeSlot(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
@@ -15,6 +15,7 @@ public class TimeSlot {
     public DayOfWeek getDayOfWeek() {
         return day;
     }
+
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -23,7 +24,6 @@ public class TimeSlot {
         return endTime;
     }
 
-    // will need to have a check to see if timeslot overlaps with another existing timeslot, implementation will be fixed later on
     public boolean overlapsWith(TimeSlot other) {
         return this.startTime.isBefore(other.getEndTime()) && this.endTime.isAfter(other.getStartTime());
     }

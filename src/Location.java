@@ -6,12 +6,14 @@ public class Location {
     private City city;
     private String address;
     private List<Space> spaces;
+    private Schedule schedule;
 
     public Location(String name, City city, String address) {
         this.name = name;
         this.city = city;
         this.address = address;
         this.spaces = new ArrayList<>();
+        this.schedule = new Schedule();
     }
 
     public void addSpace(Space space) {
@@ -37,9 +39,9 @@ public class Location {
     // hardcoded locations that will be removed later on
     public static List<Location> getLocations() {
         List<Location> locations = new ArrayList<>();
-        
+
         Province province1 = new Province("Quebec");
-    
+
         City city1 = new City("Montreal", province1);
         City city2 = new City("Quebec City", province1);
 
@@ -47,5 +49,9 @@ public class Location {
         locations.add(new Location("ULaval", city2, "123 Also Happy St"));
 
         return locations;
+    }
+
+    public void addTimeSlot(TimeSlot timeSlot) {
+        schedule.addTimeSlot(timeSlot);
     }
 }

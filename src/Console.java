@@ -94,6 +94,7 @@ public class Console {
 
                     Admin admin = (Admin) this.user;
                     admin.createOffering(lesson, capacity, selectedLocation, timeslot);
+                    System.out.println("Offering created successfully:");
                     break;
                 case 'e':
                     System.out.println("Logging out...");
