@@ -1,4 +1,17 @@
 import java.util.Arrays;
+
+import location.City;
+import location.Location;
+import location.Organization;
+import location.Province;
+import reservation.Lesson;
+import reservation.TimeSlot;
+import users.Admin;
+import users.Client;
+import users.Console;
+import users.Instructor;
+import users.User;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 

@@ -1,5 +1,12 @@
+package location;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import reservation.Lesson;
+import reservation.Offering;
+import reservation.TimeSlot;
+import users.Instructor;
 
 public class Organization {
 

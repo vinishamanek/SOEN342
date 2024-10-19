@@ -1,5 +1,10 @@
+package location;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import reservation.Schedule;
+import reservation.TimeSlot;
 
 public class Location {
     private String name;

@@ -1,6 +1,11 @@
+package users;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import location.City;
+import location.Organization;
+import reservation.Offering;
 
 public class Instructor extends User {
 

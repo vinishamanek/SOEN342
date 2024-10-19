@@ -1,3 +1,8 @@
+package reservation;
+
+import location.Location;
+import users.Instructor;
+
 public class Offering {
     private Lesson lesson;
     private int capacity;

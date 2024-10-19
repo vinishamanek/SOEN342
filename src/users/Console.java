@@ -1,3 +1,4 @@
+package users;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -5,6 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
+
+import location.Location;
+import reservation.Lesson;
+import reservation.Offering;
+import reservation.TimeSlot;
 
 public class Console {
 

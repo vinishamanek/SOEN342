@@ -1,3 +1,7 @@
+package users;
+
+import location.Organization;
+
 public abstract class User {
     private static User[] users;
 

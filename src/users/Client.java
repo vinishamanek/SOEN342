@@ -1,4 +1,7 @@
+package users;
 // need to add stuff for minors
+
+import location.Organization;
 
 public class Client extends User {
 

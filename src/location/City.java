@@ -1,5 +1,7 @@
+package location;
+
 public class City {
-    
+
     private String name;
     private Province province;
 
@@ -15,5 +17,5 @@ public class City {
     public Province getProvince() {
         return province;
     }
-    
+
 }

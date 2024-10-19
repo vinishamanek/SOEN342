@@ -1,3 +1,5 @@
+package location;
+
 public class Space {
     private String name;
     private int capacity;

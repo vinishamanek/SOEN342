@@ -1,4 +1,10 @@
+package users;
 // admin implemented as singleton class for now because only 1 admin allowed
+
+import location.Location;
+import location.Organization;
+import reservation.Lesson;
+import reservation.TimeSlot;
 
 public class Admin extends User {
 

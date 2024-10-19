@@ -1,5 +1,9 @@
+package reservation;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import location.Location;
 
 public class Lesson {
     private String name;
