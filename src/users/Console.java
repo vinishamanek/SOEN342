@@ -139,17 +139,7 @@ public class Console {
             switch (operation) {
                 case 'v':
                     List<Offering> availableOfferings = instructor.getAvailableInstructorOfferings();
-                    if (availableOfferings.isEmpty()) {
-                        System.out.println("No offerings available.");
-                    } else {
-                        System.out.println("Available Offerings:");
-                        int number = 1;
-                        for (Offering offering : availableOfferings) {
-                            System.out.println("Offering Number: " + number++);
-                            System.out.println(offering);
-                            System.out.println("-----------------------------------");
-                        }
-                    }
+                    listOfferings(availableOfferings);
                     break;
                 case 's':
                     List<Offering> offerings = instructor.getAvailableInstructorOfferings();
@@ -194,17 +184,7 @@ public class Console {
             switch (operation) {
                 case 'o':
                     List<Offering> availableOfferings = client.getAvailableClientOfferings();
-                    if (availableOfferings.isEmpty()) {
-                        System.out.println("No offerings available.");
-                    } else {
-                        System.out.println("Available Offerings:");
-                        int number = 1;
-                        for (Offering offering : availableOfferings) {
-                            System.out.println("Offering Number: " + number++);
-                            System.out.println(offering);
-                            System.out.println("-----------------------------------");
-                        }
-                    }
+                    listOfferings(availableOfferings);
                     break;
 
                 case 'm':
@@ -217,8 +197,22 @@ public class Console {
                     System.out.println("Logging out...");
                     return;
                 default:
-                    System.out.println("Invalid operation. Please enter 'c' or 'e'.");
+                    System.out.println("Invalid operation. Please enter 'o', 'm', 'b', or 'e'.");
                     break;
+            }
+        }
+    }
+
+    private void listOfferings(List<Offering> offerings) {
+        if (offerings.isEmpty()) {
+            System.out.println("No offerings available.");
+        } else {
+            System.out.println("Available Offerings:");
+            int number = 1;
+            for (Offering offering : offerings) {
+                System.out.println("Offering Number: " + number++);
+                System.out.println(offering);
+                System.out.println("-----------------------------------");
             }
         }
     }
