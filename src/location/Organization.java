@@ -7,6 +7,7 @@ import reservation.Lesson;
 import reservation.Offering;
 import reservation.TimeSlot;
 import users.Instructor;
+import users.Client;
 
 public class Organization {
 
@@ -31,6 +32,18 @@ public class Organization {
         for (Lesson lesson : Lessons) {
             for (Offering offering : lesson.getOfferings()) {
                 if (instructor.getAvailableCities().contains(offering.getLocation().getCity())) {
+                    offerings.add(offering);
+                }
+            }
+        }
+        return offerings;
+    }
+
+    public List<Offering> getAvailableClientOfferings(Client client) {
+        List<Offering> offerings = new ArrayList<Offering>();
+        for (Lesson lesson : Lessons) {
+            for (Offering offering : lesson.getOfferings()) {
+                if (offering.hasInstructor()) {
                     offerings.add(offering);
                 }
             }

@@ -49,6 +49,8 @@ public class Driver {
         users[4] = new Client("angela@concordia.ca", "password", organization);
         User.setUsers(users);
 
+        ((Instructor) users[1]).selectOffering(swimmingLesson.getOfferings().get(0));
+
         Console console = new Console(null);
         console.run();
         console.cleanup();

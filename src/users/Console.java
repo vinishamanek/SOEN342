@@ -186,9 +186,41 @@ public class Console {
     }
 
     private void clientMenu() {
-        // book offerings
-        // cancel a booking
-        // etc...
+        Client client = (Client) this.user;
+        while (true) {
+            System.out.println("o: view offerings | m: make booking | b: view bookings | e: logout");
+            char operation = prompt().toLowerCase().charAt(0);
+
+            switch (operation) {
+                case 'o':
+                    List<Offering> availableOfferings = client.getAvailableClientOfferings();
+                    if (availableOfferings.isEmpty()) {
+                        System.out.println("No offerings available.");
+                    } else {
+                        System.out.println("Available Offerings:");
+                        int number = 1;
+                        for (Offering offering : availableOfferings) {
+                            System.out.println("Offering Number: " + number++);
+                            System.out.println(offering);
+                            System.out.println("-----------------------------------");
+                        }
+                    }
+                    break;
+
+                case 'm':
+                    System.out.println("This function is not yet implemented.");
+                    break;
+                case 'b':
+                    System.out.println("This function is not yet implemented.");
+                    break;
+                case 'e':
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid operation. Please enter 'c' or 'e'.");
+                    break;
+            }
+        }
     }
 
     private String prompt() {
