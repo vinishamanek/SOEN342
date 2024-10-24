@@ -3,7 +3,7 @@ package reservation;
 import java.util.ArrayList;
 import java.util.List;
 
-import location.Location;
+import location.Space;
 
 public class Lesson {
     private String name;
@@ -17,8 +17,8 @@ public class Lesson {
         return name;
     }
 
-    public void addOffering(int capacity, Location location, TimeSlot timeSlot) {
-        Offering offering = new Offering(this, capacity, location, timeSlot);
+    public void addOffering(int capacity, Space space, TimeSlot timeSlot) {
+        Offering offering = new Offering(this, capacity, space, timeSlot);
         offerings.add(offering);
     }
 

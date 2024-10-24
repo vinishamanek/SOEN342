@@ -4,6 +4,7 @@ import location.City;
 import location.Location;
 import location.Organization;
 import location.Province;
+import location.Space;
 import reservation.Lesson;
 import reservation.TimeSlot;
 import users.Admin;
@@ -29,15 +30,20 @@ public class Driver {
         organization.addLesson(judoLesson);
 
         Location EVBuilding = new Location("EV-Building", montreal, "123 Happy St");
+        Space leGym = new Space("Le Gym", 100);
+        EVBuilding.addSpace(leGym);
+        organization.addOwnedSpace(leGym);
+
         Location ULaval = new Location("ULaval", quebecCity, "123 Also Happy St");
-        organization.addOwnedSpace(EVBuilding);
-        organization.addOwnedSpace(ULaval);
+        Space ulavalGym = new Space("ULaval Gym", 200);
+        ULaval.addSpace(ulavalGym);
+        organization.addOwnedSpace(ulavalGym);
 
         TimeSlot timeslot1 = new TimeSlot(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 30));
         TimeSlot timeslot2 = new TimeSlot(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(12, 30));
 
-        organization.createOffering(swimmingLesson, 10, EVBuilding, timeslot1);
-        organization.createOffering(judoLesson, 20, ULaval, timeslot2);
+        organization.createOffering(swimmingLesson, 10, leGym, timeslot1);
+        organization.createOffering(judoLesson, 20, ulavalGym, timeslot2);
 
         User[] users = new User[5];
         users[0] = Admin.getInstance("dwight@concordia.ca", "password", organization);

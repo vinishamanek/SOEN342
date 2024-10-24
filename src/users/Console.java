@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
-import location.Location;
+import location.Space;
 import reservation.Lesson;
 import reservation.Offering;
 import reservation.TimeSlot;
@@ -65,23 +65,23 @@ public class Console {
                     System.out.println("Enter capacity: ");
                     int capacity = Integer.parseInt(prompt());
 
-                    List<Location> locations = this.user.getOrganization().getOwnedSpaces();
-                    System.out.println("Available Locations:");
-                    for (int i = 0; i < locations.size(); i++) {
+                    List<Space> spaces = this.user.getOrganization().getOwnedSpaces();
+                    System.out.println("Available spaces:");
+                    for (int i = 0; i < spaces.size(); i++) {
                         System.out.println(
-                                (i + 1) + ". " + locations.get(i).getName() + ", "
-                                        + locations.get(i).getCity().getName());
+                                (i + 1) + ". " + spaces.get(i).getName() + ", "
+                                        + spaces.get(i).getLocation().getCity().getName());
                     }
 
-                    System.out.println("Please enter the number of the location you want to select: ");
-                    int locationIndex = Integer.parseInt(prompt()) - 1;
+                    System.out.println("Please enter the number of the space you want to select: ");
+                    int spaceIndex = Integer.parseInt(prompt()) - 1;
 
-                    if (locationIndex < 0 || locationIndex >= locations.size()) {
-                        System.out.println("Invalid location selection. Please try again.");
+                    if (spaceIndex < 0 || spaceIndex >= spaces.size()) {
+                        System.out.println("Invalid space selection. Please try again.");
                         continue;
                     }
 
-                    Location selectedLocation = locations.get(locationIndex);
+                    Space selectedSpace = spaces.get(spaceIndex);
 
                     System.out.println("Enter day of the week (e.g., Monday): ");
                     String dayInput = prompt().toUpperCase();
@@ -99,7 +99,7 @@ public class Console {
                     TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
 
                     Admin admin = (Admin) this.user;
-                    admin.createOffering(lesson, capacity, selectedLocation, timeslot);
+                    admin.createOffering(lesson, capacity, selectedSpace, timeslot);
                     System.out.println("Offering created successfully:");
                     break;
                 case 'e':

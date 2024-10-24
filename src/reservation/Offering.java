@@ -1,20 +1,21 @@
 package reservation;
 
 import location.Location;
+import location.Space;
 import users.Instructor;
 
 public class Offering {
     private Lesson lesson;
     private int capacity;
-    private Location location;
+    private Space space;
     private TimeSlot timeslot;
 
     private Instructor instructor = null;
 
-    public Offering(Lesson lesson, int capacity, Location location, TimeSlot timeslot) {
+    public Offering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
         this.lesson = lesson;
         this.capacity = capacity;
-        this.location = location;
+        this.space = space;
         this.timeslot = timeslot;
     }
 
@@ -26,8 +27,12 @@ public class Offering {
         return capacity;
     }
 
+    public Space getSpace() {
+        return space;
+    }
+
     public Location getLocation() {
-        return location;
+        return space.getLocation();
     }
 
     public TimeSlot getTimeSlot() {
@@ -38,7 +43,9 @@ public class Offering {
     public String toString() {
         return "Lesson: " + lesson.getName() + "\n" +
                 "Capacity: " + capacity + "\n" +
-                "Location: " + location.getName() + ", " + location.getCity().getName() + "\n" +
+                "Location: " + space.getName() + ", " + space.getLocation().getName() + ", "
+                + space.getLocation().getCity().getName()
+                + "\n" +
                 "Day: " + timeslot.getDayOfWeek() + "\n" +
                 "Start Time: " + timeslot.getStartTime() + "\n" +
                 "End Time: " + timeslot.getEndTime();

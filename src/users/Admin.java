@@ -1,7 +1,7 @@
 package users;
 // admin implemented as singleton class for now because only 1 admin allowed
 
-import location.Location;
+import location.Space;
 import location.Organization;
 import reservation.Lesson;
 import reservation.TimeSlot;
@@ -21,8 +21,8 @@ public class Admin extends User {
         return instance;
     }
 
-    public void createOffering(Lesson lesson, int capacity, Location location, TimeSlot timeslot) {
-        this.getOrganization().createOffering(lesson, capacity, location, timeslot);
+    public void createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
+        this.getOrganization().createOffering(lesson, capacity, space, timeslot);
     }
 
     public void deleteAccount(User user) {

@@ -13,18 +13,17 @@ public class Organization {
 
     public String name;
 
-    // Todo: change this to spaces
-    public List<Location> ownedSpaces = new ArrayList<Location>();
-    public List<Location> rentedSpaces = new ArrayList<Location>();
+    public List<Space> ownedSpaces = new ArrayList<Space>();
+    public List<Space> rentedSpaces = new ArrayList<Space>();
     public List<Lesson> Lessons = new ArrayList<Lesson>();
 
     public Organization(String name) {
         this.name = name;
     }
 
-    public void createOffering(Lesson lesson, int capacity, Location location, TimeSlot timeslot) {
-        location.addTimeSlot(timeslot);
-        lesson.addOffering(capacity, location, timeslot);
+    public void createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
+        space.addTimeSlot(timeslot);
+        lesson.addOffering(capacity, space, timeslot);
     }
 
     public List<Offering> getAvailableInstructorOfferings(Instructor instructor) {
@@ -55,11 +54,11 @@ public class Organization {
         Lessons.add(lesson);
     }
 
-    public void addOwnedSpace(Location location) {
-        ownedSpaces.add(location);
+    public void addOwnedSpace(Space space) {
+        ownedSpaces.add(space);
     }
 
-    public List<Location> getOwnedSpaces() {
+    public List<Space> getOwnedSpaces() {
         return ownedSpaces;
     }
 
