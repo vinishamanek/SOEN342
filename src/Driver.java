@@ -18,7 +18,7 @@ import java.time.LocalTime;
 
 public class Driver {
     public static void main(String[] args) {
-        Organization organization = new Organization("Dunder Mifflin Paper Company");
+        Organization organization = Organization.getInstance("Dunder Mifflin Paper Company");
 
         Province quebec = new Province("Quebec");
         City montreal = new City("Montreal", quebec);
