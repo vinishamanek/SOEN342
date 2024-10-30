@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
+import location.Organization;
 import location.Space;
 import reservation.Booking;
 import reservation.Lesson;
@@ -24,9 +25,8 @@ public class Console {
 
     public void run() {
         if (this.user == null) {
-            this.login();
-        }
-        if (this.user instanceof Admin) {
+            this.defaultMenu();
+        } else if (this.user instanceof Admin) {
             adminMenu();
         } else if (this.user instanceof Instructor) {
             instructorMenu();
@@ -34,6 +34,30 @@ public class Console {
             clientMenu();
         } else {
             throw new RuntimeException("Role not recognized.");
+        }
+    }
+
+    private void defaultMenu() {
+        while (true) {
+            System.out.println("v: view offerings | l: login | e: exit");
+            char operation = prompt().toLowerCase().charAt(0);
+
+            switch (operation) {
+                case 'v':
+                    List<Offering> offerings = Organization.getInstance().getPublicOfferings();
+                    listOfferings(offerings);
+                    break;
+                case 'l':
+                    login();
+                    run();
+                    break;
+                case 'e':
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid operation. Please enter 'v', 'l', or 'e'.");
+                    break;
+            }
         }
     }
 

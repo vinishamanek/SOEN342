@@ -10,6 +10,7 @@ import users.Instructor;
 import users.Client;
 
 public class Organization {
+    public static Organization instance;
 
     public String name;
 
@@ -17,8 +18,19 @@ public class Organization {
     public List<Space> rentedSpaces = new ArrayList<Space>();
     public List<Lesson> Lessons = new ArrayList<Lesson>();
 
-    public Organization(String name) {
+    private Organization(String name) {
         this.name = name;
+    }
+
+    public static Organization getInstance(String name) {
+        if (instance == null) {
+            instance = new Organization(name);
+        }
+        return instance;
+    }
+
+    public static Organization getInstance() {
+        return Organization.getInstance("Organization");
     }
 
     public void createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
@@ -38,6 +50,7 @@ public class Organization {
         return offerings;
     }
 
+    // todo: take the cient's details & existing bookings into account
     public List<Offering> getAvailableClientOfferings(Client client) {
         List<Offering> offerings = new ArrayList<Offering>();
         for (Lesson lesson : Lessons) {
@@ -48,6 +61,19 @@ public class Organization {
             }
         }
         return offerings;
+    }
+
+    public List<Offering> getPublicOfferings() {
+        List<Offering> offerings = new ArrayList<Offering>();
+        for (Lesson lesson : Lessons) {
+            for (Offering offering : lesson.getOfferings()) {
+                if (offering.hasInstructor()) {
+                    offerings.add(offering);
+                }
+            }
+        }
+        return offerings;
+
     }
 
     public void addLesson(Lesson lesson) {
