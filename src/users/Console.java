@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
-
 import location.Space;
+import reservation.Booking;
 import reservation.Lesson;
 import reservation.Offering;
-import reservation.TimeSlot;
+import reservation.TimeSlot; 
 
 public class Console {
 
@@ -177,22 +177,74 @@ public class Console {
 
     private void clientMenu() {
         Client client = (Client) this.user;
+        List<Offering> availableOfferings;
+
         while (true) {
-            System.out.println("o: view offerings | m: make booking | b: view bookings | e: logout");
+            System.out.println("o: view offerings | m: make booking | v: view bookings | c: cancel booking | e: logout");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
                 case 'o':
-                    List<Offering> availableOfferings = client.getAvailableClientOfferings();
+                    availableOfferings = client.getAvailableClientOfferings();
                     listOfferings(availableOfferings);
                     break;
 
-                case 'm':
-                    System.out.println("This function is not yet implemented.");
+                    case 'm':
+                    System.out.println("available offerings to book:");
+                    availableOfferings = client.getAvailableClientOfferings();
+                    listOfferings(availableOfferings);
+                
+                    if (availableOfferings.isEmpty()) {
+                        System.out.println("no available offerings to book.");
+                        break; 
+                    }
+                
+                    System.out.println("enter the number associated with the offering you'd like to book:");
+                
+                    if (scanner.hasNextInt()) {
+                        int offeringIndex = scanner.nextInt();
+                        scanner.nextLine(); 
+                
+                        if (offeringIndex > 0 && offeringIndex <= availableOfferings.size()) {
+                            Offering selectedOffering = availableOfferings.get(offeringIndex - 1); 
+                            client.createBooking(selectedOffering);
+                            System.out.println("booking created successfully!");
+                        } else {
+                            System.out.println("error...");
+                        }
+                    } else {
+                        System.out.println("error: enter a valid number.");
+                        scanner.nextLine(); 
+                    }
                     break;
-                case 'b':
-                    System.out.println("This function is not yet implemented.");
+                
+                case 'v':
+                    client.viewBookings(); 
                     break;
+                case 'c':
+                    client.viewBookings(); // Show current bookings first
+                    if (!client.getBookings().isEmpty()) { // Ensure there are bookings to cancel
+                        System.out.println("Enter the number associated with the booking you'd like to cancel:");
+
+                        if (scanner.hasNextInt()) {
+                            int bookingIndex = scanner.nextInt();
+                            scanner.nextLine(); // Consume the newline
+
+                            if (bookingIndex > 0 && bookingIndex <= client.getBookings().size()) {
+                                Booking bookingToCancel = client.getBookings().get(bookingIndex - 1); // Adjust for 0-based index
+                                client.cancelBooking(bookingToCancel.getOffering());
+                                System.out.println("Booking canceled successfully!");
+                            } else {
+                                System.out.println("Error: Invalid booking number. Please try again.");
+                            }
+                        } else {
+                            System.out.println("Error: Please enter a valid number.");
+                            scanner.nextLine(); // Clear the invalid input
+                        }
+                    } else {
+                        System.out.println("No bookings available to cancel.");
+                    }
+                    break;                    
                 case 'e':
                     System.out.println("Logging out...");
                     return;

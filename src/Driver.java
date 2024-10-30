@@ -1,5 +1,6 @@
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Arrays;
-
 import location.City;
 import location.Location;
 import location.Organization;
@@ -12,9 +13,6 @@ import users.Client;
 import users.Console;
 import users.Instructor;
 import users.User;
-
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 
 public class Driver {
     public static void main(String[] args) {
