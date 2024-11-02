@@ -1,8 +1,8 @@
-package users;
+package soen342.users;
 // need to add stuff for minors
 
-import location.Organization;
-import reservation.Offering;
+import soen342.location.Organization;
+import soen342.reservation.Offering;
 import java.util.List;
 
 public class Client extends User {

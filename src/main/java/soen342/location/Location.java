@@ -1,4 +1,4 @@
-package location;
+package soen342.location;
 
 import java.util.ArrayList;
 import java.util.List;

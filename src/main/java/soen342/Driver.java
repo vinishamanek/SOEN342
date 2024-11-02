@@ -1,17 +1,19 @@
+package soen342;
+
 import java.util.Arrays;
 
-import location.City;
-import location.Location;
-import location.Organization;
-import location.Province;
-import location.Space;
-import reservation.Lesson;
-import reservation.TimeSlot;
-import users.Admin;
-import users.Client;
-import users.Console;
-import users.Instructor;
-import users.User;
+import soen342.location.City;
+import soen342.location.Location;
+import soen342.location.Organization;
+import soen342.location.Province;
+import soen342.location.Space;
+import soen342.reservation.Lesson;
+import soen342.reservation.TimeSlot;
+import soen342.users.Admin;
+import soen342.users.Client;
+import soen342.users.Console;
+import soen342.users.Instructor;
+import soen342.users.User;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

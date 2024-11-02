@@ -1,4 +1,4 @@
-package reservation;
+package soen342.reservation;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

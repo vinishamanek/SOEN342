@@ -1,10 +1,10 @@
-package users;
+package soen342.users;
 // admin implemented as singleton class for now because only 1 admin allowed
 
-import location.Space;
-import location.Organization;
-import reservation.Lesson;
-import reservation.TimeSlot;
+import soen342.location.Space;
+import soen342.location.Organization;
+import soen342.reservation.Lesson;
+import soen342.reservation.TimeSlot;
 
 public class Admin extends User {
 

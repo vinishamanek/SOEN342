@@ -1,7 +1,7 @@
-package location;
+package soen342.location;
 
-import reservation.Schedule;
-import reservation.TimeSlot;
+import soen342.reservation.Schedule;
+import soen342.reservation.TimeSlot;
 
 public class Space {
     private String name;

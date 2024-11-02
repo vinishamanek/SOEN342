@@ -1,6 +1,6 @@
-package users;
+package soen342.users;
 
-import location.Organization;
+import soen342.location.Organization;
 
 public abstract class User {
     private static User[] users;

@@ -1,11 +1,11 @@
-package users;
+package soen342.users;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import location.City;
-import location.Organization;
-import reservation.Offering;
+import soen342.location.City;
+import soen342.location.Organization;
+import soen342.reservation.Offering;
 
 public class Instructor extends User {
 

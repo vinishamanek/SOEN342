@@ -1,4 +1,4 @@
-package users;
+package soen342.users;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -7,11 +7,11 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
-import location.Organization;
-import location.Space;
-import reservation.Lesson;
-import reservation.Offering;
-import reservation.TimeSlot;
+import soen342.location.Organization;
+import soen342.location.Space;
+import soen342.reservation.Lesson;
+import soen342.reservation.Offering;
+import soen342.reservation.TimeSlot;
 
 public class Console {
 

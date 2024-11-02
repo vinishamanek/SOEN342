@@ -1,9 +1,9 @@
-package reservation;
+package soen342.reservation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import location.Space;
+import soen342.location.Space;
 
 public class Lesson {
     private String name;

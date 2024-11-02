@@ -1,4 +1,4 @@
-package location;
+package soen342.location;
 
 public class City {
 

@@ -1,8 +1,8 @@
-package reservation;
+package soen342.reservation;
 
-import location.Location;
-import location.Space;
-import users.Instructor;
+import soen342.location.Location;
+import soen342.location.Space;
+import soen342.users.Instructor;
 
 public class Offering {
     private Lesson lesson;

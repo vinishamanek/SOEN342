@@ -1,4 +1,4 @@
-package reservation;
+package soen342.reservation;
 
 import java.util.ArrayList;
 import java.util.List;
