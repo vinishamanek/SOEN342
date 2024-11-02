@@ -1,6 +1,8 @@
+
+package soen342;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-package soen342;
 
 import java.util.Arrays;
 
