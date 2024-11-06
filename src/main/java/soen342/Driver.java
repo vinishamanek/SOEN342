@@ -19,9 +19,6 @@ import soen342.users.Console;
 import soen342.users.Instructor;
 import soen342.users.User;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-
 public class Driver {
     public static void main(String[] args) {
         Organization organization = Organization.getInstance("Dunder Mifflin Paper Company");
