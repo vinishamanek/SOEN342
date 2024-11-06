@@ -22,7 +22,7 @@ public abstract class User {
     @Column(nullable = false)
     private String password;
 
-    @Transient
+    @ManyToOne
     private Organization organization;
 
     protected User() {

@@ -3,20 +3,33 @@ package soen342.location;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
 import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.reservation.TimeSlot;
 import soen342.users.Instructor;
 import soen342.users.Client;
 
+@Entity
 public class Organization {
     public static Organization instance;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
     public String name;
 
+    @Transient
     public List<Space> ownedSpaces = new ArrayList<Space>();
+    @Transient
     public List<Space> rentedSpaces = new ArrayList<Space>();
+    @Transient
     public List<Lesson> Lessons = new ArrayList<Lesson>();
+
+    protected Organization() {
+    }
 
     private Organization(String name) {
         this.name = name;

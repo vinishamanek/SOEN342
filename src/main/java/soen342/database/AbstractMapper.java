@@ -1,0 +1,61 @@
+package soen342.database;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+
+public abstract class AbstractMapper<T> {
+    protected EntityManager entityManager;
+
+    public AbstractMapper() {
+        entityManager = JPAUtil.getEntityManager();
+    }
+
+    public void create(T entity) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    public void update(T entity) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    public void delete(T entity) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            if (!entityManager.contains(entity)) {
+                entity = entityManager.merge(entity);
+            }
+            entityManager.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    public void close() {
+        entityManager.close();
+    }
+}
