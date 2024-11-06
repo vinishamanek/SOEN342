@@ -3,18 +3,37 @@ package soen342.users;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
 import soen342.location.City;
 import soen342.location.Organization;
 import soen342.reservation.Offering;
 
+@Entity
+@Table(name = "instructors")
 public class Instructor extends User {
 
-    private List<City> availableCities; // list or array? tbd
-    private String specialization; // if can have more than one, make array or list
+    // @ManyToMany
+    // @JoinTable(
+    // name = "instructor_cities",
+    // joinColumns = @JoinColumn(name = "instructor_id"),
+    // inverseJoinColumns = @JoinColumn(name = "city_id")
+    // )
+    @Transient
+    private List<City> availableCities;
+
+    @Column(nullable = false)
+    private String specialization;
+
+    // @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
+    @Transient
     private List<Offering> assignedOfferings;
 
+    protected Instructor() {
+        super();
+    }
+
     public Instructor(String email, String password, Organization organization, List<City> availableCities,
-            String specializations) {
+            String specialization) {
         super(email, password, organization);
         this.availableCities = availableCities;
         this.specialization = specialization;

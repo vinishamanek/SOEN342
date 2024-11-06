@@ -4,13 +4,24 @@ package soen342.users;
 import soen342.location.Organization;
 import soen342.reservation.Offering;
 import java.util.List;
-import java.util.ArrayList;
-import soen342.location.Organization;
-import soen342.reservation.Booking;
-import soen342.reservation.Offering;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import soen342.reservation.Booking;
+
+@Entity
+@Table(name = "clients")
 public class Client extends User {
+
+    // @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval =
+    // true)
+    @Transient
     private List<Booking> bookings = new ArrayList<>();
+
+    protected Client() {
+        super();
+    }
 
     public Client(String email, String password, Organization organization) {
         super(email, password, organization);
@@ -38,8 +49,7 @@ public class Client extends User {
             System.out.println("Your current bookings:");
             for (int i = 0; i < bookings.size(); i++) {
                 Booking booking = bookings.get(i);
-                System.out.println((i + 1) + ". " + booking.toString()); // Assumes Booking class has a proper
-                                                                         // toString() implementation
+                System.out.println((i + 1) + ". " + booking.toString());
             }
         }
     }
