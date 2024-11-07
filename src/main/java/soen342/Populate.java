@@ -36,6 +36,18 @@ public class Populate {
         organization.addLesson(judoLesson);
         organizationMapper.create(organization);
 
+        Location EVBuilding = new Location("EV-Building", montreal, "123 Happy St");
+        Space leGym = new Space("Le Gym", 100);
+        EVBuilding.addSpace(leGym);
+        locationMapper.create(EVBuilding);
+        // organization.addOwnedSpace(leGym);
+
+        Location ULaval = new Location("ULaval", quebecCity, "123 Also Happy St");
+        Space ulavalGym = new Space("ULaval Gym", 200);
+        ULaval.addSpace(ulavalGym);
+        locationMapper.create(ULaval);
+        // organization.addOwnedSpace(ulavalGym);
+
         userMapper.create(Admin.getInstance("dwight@concordia.ca", "password", organization));
         userMapper.create(new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),
                 "Swimming"));
@@ -43,15 +55,6 @@ public class Populate {
                 Arrays.asList(montreal, quebecCity), "Judo"));
         userMapper.create(new Client("michael@concordia.ca", "password", organization));
         userMapper.create(new Client("angela@concordia.ca", "password", organization));
-
-
-        Location EVBuilding = new Location("EV-Building", montreal, "123 Happy St");
-        locationMapper.create(EVBuilding);
-
-        Space ulavalGym = new Space("ULaval Gym", 200);
-        ULaval.addSpace(ulavalGym);
-        organization.addOwnedSpace(ulavalGym);
-        spaceMapper.create(ulavalGym);
 
         organizationMapper.close();
         lessonMapper.close();
