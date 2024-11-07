@@ -24,9 +24,8 @@ public class Instructor extends User {
     @Column(nullable = false)
     private String specialization;
 
-    // @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
-    @Transient
-    private List<Offering> assignedOfferings;
+    @OneToMany(mappedBy = "instructor")
+    private List<Offering> offerings;
 
     protected Instructor() {
         super();
@@ -37,7 +36,7 @@ public class Instructor extends User {
         super(email, password, organization);
         this.availableCities = availableCities;
         this.specialization = specialization;
-        this.assignedOfferings = new ArrayList<>();
+        this.offerings = new ArrayList<>();
 
     }
 
@@ -50,7 +49,7 @@ public class Instructor extends User {
     }
 
     public List<Offering> getAssignedOfferings() {
-        return assignedOfferings;
+        return offerings;
     }
 
     public List<Offering> getAvailableInstructorOfferings() {
@@ -63,7 +62,7 @@ public class Instructor extends User {
             throw new IllegalArgumentException("Offering cannot be null");
         }
         offering.assignInstructor(this);
-        assignedOfferings.add(offering);
+        offerings.add(offering);
     }
 
 }

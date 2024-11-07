@@ -16,7 +16,7 @@ public class Lesson {
     @Column(nullable = false)
     private String name;
 
-    @Transient
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.PERSIST)
     private List<Offering> offerings = new ArrayList<Offering>();
 
     public Lesson(String name) {
