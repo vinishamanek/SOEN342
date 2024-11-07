@@ -15,6 +15,8 @@ public class Populate {
         ProvinceMapper provinceMapper = new ProvinceMapper();
         CityMapper cityMapper = new CityMapper();
         UserMapper userMapper = new UserMapper();
+        LocationMapper locationMapper = new LocationMapper();
+        SpaceMapper spaceMapper = new SpaceMapper();
 
         Province quebec = new Province("Quebec");
         provinceMapper.create(quebec);
@@ -36,10 +38,21 @@ public class Populate {
         userMapper.create(new Client("michael@concordia.ca", "password", organization));
         userMapper.create(new Client("angela@concordia.ca", "password", organization));
 
+
+        Location EVBuilding = new Location("EV-Building", montreal, "123 Happy St");
+        locationMapper.create(EVBuilding);
+
+        Space ulavalGym = new Space("ULaval Gym", 200);
+        ULaval.addSpace(ulavalGym);
+        organization.addOwnedSpace(ulavalGym);
+        spaceMapper.create(ulavalGym);
+
         organizationMapper.close();
         provinceMapper.close();
         cityMapper.close();
         userMapper.close();
+        locationMapper.close();
+        spaceMapper.close();
         JPAUtil.closeEntityManagerFactory();
     }
 
