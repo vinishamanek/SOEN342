@@ -13,6 +13,7 @@ public class Populate {
         JPAUtil.init();
         OrganizationMapper organizationMapper = new OrganizationMapper();
         LessonMapper lessonMapper = new LessonMapper();
+        OfferingMapper offeringMapper = new OfferingMapper();
         ProvinceMapper provinceMapper = new ProvinceMapper();
         CityMapper cityMapper = new CityMapper();
         UserMapper userMapper = new UserMapper();
@@ -43,6 +44,7 @@ public class Populate {
 
         organizationMapper.close();
         lessonMapper.close();
+        offeringMapper.close();
         provinceMapper.close();
         cityMapper.close();
         userMapper.close();
