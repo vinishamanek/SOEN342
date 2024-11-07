@@ -12,9 +12,12 @@ public class Populate {
     public static void main(String[] args) {
         JPAUtil.init();
         OrganizationMapper organizationMapper = new OrganizationMapper();
+        ProvinceMapper provinceMapper = new ProvinceMapper();
         UserMapper userMapper = new UserMapper();
 
         Province quebec = new Province("Quebec");
+        provinceMapper.create(quebec);
+
         City montreal = new City("Montreal", quebec);
         City quebecCity = new City("Quebec City", quebec);
 
@@ -30,6 +33,7 @@ public class Populate {
         userMapper.create(new Client("angela@concordia.ca", "password", organization));
 
         organizationMapper.close();
+        provinceMapper.close();
         userMapper.close();
         JPAUtil.closeEntityManagerFactory();
     }

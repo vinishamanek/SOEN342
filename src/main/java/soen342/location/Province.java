@@ -1,6 +1,15 @@
 package soen342.location;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Province {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
     private String name;
 
     public Province(String name) {
