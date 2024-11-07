@@ -21,9 +21,12 @@ public class Organization {
     @Column(nullable = false)
     public String name;
 
-    @Transient
+    @OneToMany
+    @JoinTable(name = "organization_owned_spaces", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "owned_space_id"))
     public List<Space> ownedSpaces = new ArrayList<Space>();
-    @Transient
+
+    @OneToMany
+    @JoinTable(name = "organization_rented_spaces", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "rented_space_id"))
     public List<Space> rentedSpaces = new ArrayList<Space>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

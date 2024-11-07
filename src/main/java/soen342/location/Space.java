@@ -24,6 +24,9 @@ public class Space {
     @Transient
     private Schedule schedule;
 
+    protected Space() {
+    }
+
     public Space(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;

@@ -40,13 +40,15 @@ public class Populate {
         Space leGym = new Space("Le Gym", 100);
         EVBuilding.addSpace(leGym);
         locationMapper.create(EVBuilding);
-        // organization.addOwnedSpace(leGym);
+        organization.addOwnedSpace(leGym);
+        organizationMapper.update(organization);
 
         Location ULaval = new Location("ULaval", quebecCity, "123 Also Happy St");
         Space ulavalGym = new Space("ULaval Gym", 200);
         ULaval.addSpace(ulavalGym);
         locationMapper.create(ULaval);
-        // organization.addOwnedSpace(ulavalGym);
+        organization.addOwnedSpace(ulavalGym);
+        organizationMapper.update(organization);
 
         userMapper.create(Admin.getInstance("dwight@concordia.ca", "password", organization));
         userMapper.create(new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),

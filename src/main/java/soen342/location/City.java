@@ -15,6 +15,9 @@ public class City {
     @ManyToOne
     private Province province;
 
+    protected City() {
+    }
+
     public City(String name, Province province) {
         this.name = name;
         this.province = province;

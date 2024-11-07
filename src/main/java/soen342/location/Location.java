@@ -13,14 +13,17 @@ public class Location {
 
     @Column(nullable = false)
     private String name;
-    
-    @ManyToOne 
+
+    @ManyToOne
     private City city;
-    
+
     private String address;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Space> spaces = new ArrayList<>();
+
+    protected Location() {
+    }
 
     public Location(String name, City city, String address) {
         this.name = name;
@@ -29,7 +32,7 @@ public class Location {
     }
 
     public void addSpace(Space space) {
-        space.setLocation(this); 
+        space.setLocation(this);
         spaces.add(space);
     }
 
@@ -57,36 +60,36 @@ public class Location {
 // import java.util.List;
 
 // public class Location {
-//     private String name;
-//     private City city;
-//     private String address;
-//     private List<Space> spaces;
+// private String name;
+// private City city;
+// private String address;
+// private List<Space> spaces;
 
-//     public Location(String name, City city, String address) {
-//         this.name = name;
-//         this.city = city;
-//         this.address = address;
-//         this.spaces = new ArrayList<>();
-//     }
+// public Location(String name, City city, String address) {
+// this.name = name;
+// this.city = city;
+// this.address = address;
+// this.spaces = new ArrayList<>();
+// }
 
-//     public void addSpace(Space space) {
-//         space.setLocation(this);
-//         spaces.add(space);
-//     }
+// public void addSpace(Space space) {
+// space.setLocation(this);
+// spaces.add(space);
+// }
 
-//     public String getName() {
-//         return name;
-//     }
+// public String getName() {
+// return name;
+// }
 
-//     public City getCity() {
-//         return city;
-//     }
+// public City getCity() {
+// return city;
+// }
 
-//     public String getAddress() {
-//         return address;
-//     }
+// public String getAddress() {
+// return address;
+// }
 
-//     public List<Space> getSpaces() {
-//         return spaces;
-//     }
+// public List<Space> getSpaces() {
+// return spaces;
+// }
 // }

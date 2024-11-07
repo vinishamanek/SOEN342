@@ -12,6 +12,9 @@ public class Province {
     @Column(nullable = false)
     private String name;
 
+    protected Province() {
+    }
+
     public Province(String name) {
         this.name = name;
     }
