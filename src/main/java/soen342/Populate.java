@@ -6,12 +6,13 @@ import soen342.database.*;
 
 import soen342.users.*;
 import soen342.location.*;
-import soen342.location.Organization;
+import soen342.reservation.Lesson;
 
 public class Populate {
     public static void main(String[] args) {
         JPAUtil.init();
         OrganizationMapper organizationMapper = new OrganizationMapper();
+        LessonMapper lessonMapper = new LessonMapper();
         ProvinceMapper provinceMapper = new ProvinceMapper();
         CityMapper cityMapper = new CityMapper();
         UserMapper userMapper = new UserMapper();
@@ -26,6 +27,10 @@ public class Populate {
         cityMapper.create(quebecCity);
 
         Organization organization = Organization.getInstance("Dunder Mifflin Paper Company");
+        Lesson swimmingLesson = new Lesson("Swimming");
+        Lesson judoLesson = new Lesson("Judo");
+        organization.addLesson(swimmingLesson);
+        organization.addLesson(judoLesson);
         organizationMapper.create(organization);
 
         userMapper.create(Admin.getInstance("dwight@concordia.ca", "password", organization));
@@ -37,6 +42,7 @@ public class Populate {
         userMapper.create(new Client("angela@concordia.ca", "password", organization));
 
         organizationMapper.close();
+        lessonMapper.close();
         provinceMapper.close();
         cityMapper.close();
         userMapper.close();
