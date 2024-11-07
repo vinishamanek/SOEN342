@@ -13,13 +13,17 @@ public class Populate {
         JPAUtil.init();
         OrganizationMapper organizationMapper = new OrganizationMapper();
         ProvinceMapper provinceMapper = new ProvinceMapper();
+        CityMapper cityMapper = new CityMapper();
         UserMapper userMapper = new UserMapper();
 
         Province quebec = new Province("Quebec");
         provinceMapper.create(quebec);
 
         City montreal = new City("Montreal", quebec);
+        cityMapper.create(montreal);
+
         City quebecCity = new City("Quebec City", quebec);
+        cityMapper.create(quebecCity);
 
         Organization organization = Organization.getInstance("Dunder Mifflin Paper Company");
         organizationMapper.create(organization);
@@ -34,6 +38,7 @@ public class Populate {
 
         organizationMapper.close();
         provinceMapper.close();
+        cityMapper.close();
         userMapper.close();
         JPAUtil.closeEntityManagerFactory();
     }
