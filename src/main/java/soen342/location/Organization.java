@@ -25,7 +25,9 @@ public class Organization {
     public List<Space> ownedSpaces = new ArrayList<Space>();
     @Transient
     public List<Space> rentedSpaces = new ArrayList<Space>();
-    @Transient
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
     public List<Lesson> Lessons = new ArrayList<Lesson>();
 
     protected Organization() {
