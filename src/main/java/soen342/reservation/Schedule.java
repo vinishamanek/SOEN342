@@ -3,7 +3,16 @@ package soen342.reservation;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Schedule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Transient
     private List<TimeSlot> timeSlots;
 
     public Schedule() {
