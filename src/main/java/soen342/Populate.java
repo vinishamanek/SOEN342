@@ -1,12 +1,14 @@
 package soen342;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 import soen342.database.*;
 
 import soen342.users.*;
 import soen342.location.*;
-import soen342.reservation.Lesson;
+import soen342.reservation.*;
 
 public class Populate {
     public static void main(String[] args) {
@@ -18,7 +20,6 @@ public class Populate {
         CityMapper cityMapper = new CityMapper();
         UserMapper userMapper = new UserMapper();
         LocationMapper locationMapper = new LocationMapper();
-        SpaceMapper spaceMapper = new SpaceMapper();
 
         Province quebec = new Province("Quebec");
         provinceMapper.create(quebec);
@@ -50,6 +51,18 @@ public class Populate {
         organization.addOwnedSpace(ulavalGym);
         organizationMapper.update(organization);
 
+        TimeSlot timeslot1 = new TimeSlot(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 30));
+        TimeSlot timeslot2 = new TimeSlot(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(12, 30));
+
+        Offering o1 = organization.createOffering(swimmingLesson, 10, leGym, timeslot1);
+        Offering o2 = organization.createOffering(judoLesson, 20, ulavalGym, timeslot2);
+
+        // persist the timeslots first so that the offerings can reference them
+        locationMapper.update(EVBuilding);
+        locationMapper.update(ULaval);
+        offeringMapper.create(o1);
+        offeringMapper.create(o2);
+
         userMapper.create(Admin.getInstance("dwight@concordia.ca", "password", organization));
         userMapper.create(new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),
                 "Swimming"));
@@ -65,7 +78,6 @@ public class Populate {
         cityMapper.close();
         userMapper.close();
         locationMapper.close();
-        spaceMapper.close();
         JPAUtil.closeEntityManagerFactory();
     }
 

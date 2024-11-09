@@ -12,7 +12,8 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "schedule_id", nullable = false)
     private List<TimeSlot> timeSlots;
 
     public Schedule() {

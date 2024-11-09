@@ -1,21 +1,41 @@
 package soen342.reservation;
 
+import jakarta.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+@Entity
 public class TimeSlot {
-    private DayOfWeek day;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DayOfWeek dayOfWeek;
+
+    @Column(nullable = false)
     private LocalTime startTime;
+
+    @Column(nullable = false)
     private LocalTime endTime;
 
-    public TimeSlot(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
-        this.day = day;
+    protected TimeSlot() {
+    }
+
+    public TimeSlot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+        this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public DayOfWeek getDayOfWeek() {
-        return day;
+        return dayOfWeek;
     }
 
     public LocalTime getStartTime() {

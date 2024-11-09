@@ -51,9 +51,9 @@ public class Organization {
         return Organization.getInstance("Organization");
     }
 
-    public void createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
+    public Offering createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
         space.addTimeSlot(timeslot);
-        lesson.addOffering(capacity, space, timeslot);
+        return lesson.addOffering(capacity, space, timeslot);
     }
 
     public List<Offering> getAvailableInstructorOfferings(Instructor instructor) {
