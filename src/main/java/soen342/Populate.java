@@ -19,6 +19,7 @@ public class Populate {
         UserMapper userMapper = new UserMapper();
         LocationMapper locationMapper = new LocationMapper();
         SpaceMapper spaceMapper = new SpaceMapper();
+        BookingMapper bookingMapper = new BookingMapper();
 
         Province quebec = new Province("Quebec");
         provinceMapper.create(quebec);
@@ -66,6 +67,7 @@ public class Populate {
         userMapper.close();
         locationMapper.close();
         spaceMapper.close();
+        bookingMapper.close();
         JPAUtil.closeEntityManagerFactory();
     }
 
