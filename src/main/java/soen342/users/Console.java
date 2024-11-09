@@ -7,6 +7,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+import soen342.database.*;
 import soen342.location.Organization;
 import soen342.location.Space;
 import soen342.reservation.Booking;
@@ -18,10 +19,12 @@ public class Console {
 
     private User user;
     private Scanner scanner;
+    private UserMapper userMapper;
 
     public Console(User user) {
         this.setUser(user);
         this.scanner = new Scanner(System.in);
+        this.userMapper = new UserMapper();
     }
 
     public void run() {
@@ -68,8 +71,9 @@ public class Console {
             String email = prompt();
             System.out.println("What is your password?");
             String password = prompt();
-            this.setUser(User.login(email, password));
-            if (this.user != null) {
+            User user = this.userMapper.findByCredentials(email, password);
+            if (user != null) {
+                this.setUser(user);
                 System.out.println("Welcome " + user.getEmail());
                 return;
             }
@@ -307,6 +311,7 @@ public class Console {
 
     public void cleanup() {
         scanner.close();
+        this.userMapper.close();
     }
 
     private void setUser(User user) {

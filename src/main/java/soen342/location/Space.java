@@ -20,8 +20,8 @@ public class Space {
     @JoinColumn(nullable = false)
     private Location location;
 
-    // @OneToOne
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(nullable = false)
     private Schedule schedule;
 
     protected Space() {

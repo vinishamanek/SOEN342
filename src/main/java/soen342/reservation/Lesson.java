@@ -27,9 +27,10 @@ public class Lesson {
         return name;
     }
 
-    public void addOffering(int capacity, Space space, TimeSlot timeSlot) {
+    public Offering addOffering(int capacity, Space space, TimeSlot timeSlot) {
         Offering offering = new Offering(this, capacity, space, timeSlot);
         offerings.add(offering);
+        return offering;
     }
 
     public List<Offering> getOfferings() {

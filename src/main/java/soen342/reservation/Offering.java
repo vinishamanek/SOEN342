@@ -18,8 +18,12 @@ public class Offering {
     @Column(nullable = false)
     private int capacity;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Space space;
+
+    // @OneToOne
+    // @JoinColumn(nullable = false, unique = true)
     @Transient
     private TimeSlot timeslot;
 

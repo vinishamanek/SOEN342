@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 import java.util.Arrays;
 
+import soen342.database.JPAUtil;
 import soen342.location.City;
 import soen342.location.Location;
 import soen342.location.Organization;
@@ -21,6 +22,7 @@ import soen342.users.User;
 
 public class Driver {
     public static void main(String[] args) {
+        JPAUtil.init();
         Organization organization = Organization.getInstance("Dunder Mifflin Paper Company");
 
         Province quebec = new Province("Quebec");
@@ -63,5 +65,6 @@ public class Driver {
         Console console = new Console(null);
         console.run();
         console.cleanup();
+        JPAUtil.closeEntityManagerFactory();
     }
 }
