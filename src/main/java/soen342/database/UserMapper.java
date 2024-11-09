@@ -18,6 +18,18 @@ public class UserMapper extends AbstractMapper<User> {
         }
     }
 
+    public User findByCredentials(String email, String password) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class);
+            query.setParameter("email", email);
+            query.setParameter("password", password);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public List<User> findAll() {
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT u FROM User u", User.class);
