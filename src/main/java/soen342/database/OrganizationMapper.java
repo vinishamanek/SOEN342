@@ -18,4 +18,15 @@ public class OrganizationMapper extends AbstractMapper<Organization> {
         }
     }
 
+    public Organization getDefault() {
+        try {
+            TypedQuery<Organization> query = entityManager.createQuery(
+                    "SELECT o FROM Organization o ORDER BY o.id", Organization.class);
+            query.setMaxResults(1);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
 }

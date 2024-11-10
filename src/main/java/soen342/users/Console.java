@@ -19,11 +19,13 @@ public class Console {
 
     private User user;
     private Scanner scanner;
+    private OrganizationMapper organizationMapper;
     private UserMapper userMapper;
 
     public Console(User user) {
         this.setUser(user);
         this.scanner = new Scanner(System.in);
+        this.organizationMapper = new OrganizationMapper();
         this.userMapper = new UserMapper();
     }
 
@@ -48,7 +50,8 @@ public class Console {
 
             switch (operation) {
                 case 'v':
-                    List<Offering> offerings = Organization.getInstance().getPublicOfferings();
+                    Organization organization = this.organizationMapper.getDefault();
+                    List<Offering> offerings = organization.getPublicOfferings();
                     listOfferings(offerings);
                     break;
                 case 'l':
@@ -312,6 +315,7 @@ public class Console {
     public void cleanup() {
         scanner.close();
         this.userMapper.close();
+        this.organizationMapper.close();
     }
 
     private void setUser(User user) {

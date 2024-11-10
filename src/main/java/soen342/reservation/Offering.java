@@ -30,6 +30,9 @@ public class Offering {
     @ManyToOne(optional = true)
     private Instructor instructor;
 
+    public Offering() {
+    }
+
     public Offering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
         this.lesson = lesson;
         this.capacity = capacity;

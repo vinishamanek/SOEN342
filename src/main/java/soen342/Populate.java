@@ -44,7 +44,7 @@ public class Populate {
         City quebecCity = new City("Quebec City", quebec);
         cityMapper.create(quebecCity);
 
-        Organization organization = Organization.getInstance("Dunder Mifflin Paper Company");
+        Organization organization = new Organization("Dunder Mifflin Paper Company");
         Lesson swimmingLesson = new Lesson("Swimming");
         Lesson judoLesson = new Lesson("Judo");
         organization.addLesson(swimmingLesson);
@@ -77,13 +77,17 @@ public class Populate {
         offeringMapper.create(o1);
         offeringMapper.create(o2);
 
+        Instructor i = new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),
+                "Swimming");
         userMapper.create(Admin.getInstance("dwight@concordia.ca", "password", organization));
-        userMapper.create(new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),
-                "Swimming"));
+        userMapper.create(i);
         userMapper.create(new Instructor("jim@concordia.ca", "password", organization,
                 Arrays.asList(montreal, quebecCity), "Judo"));
         userMapper.create(new Client("michael@concordia.ca", "password", organization));
         userMapper.create(new Client("angela@concordia.ca", "password", organization));
+
+        i.selectOffering(swimmingLesson.getOfferings().get(0));
+        offeringMapper.update(swimmingLesson.getOfferings().get(0));
 
         organizationMapper.close();
         lessonMapper.close();

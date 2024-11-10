@@ -12,7 +12,6 @@ import soen342.users.Client;
 
 @Entity
 public class Organization {
-    public static Organization instance;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,19 +35,8 @@ public class Organization {
     protected Organization() {
     }
 
-    private Organization(String name) {
+    public Organization(String name) {
         this.name = name;
-    }
-
-    public static Organization getInstance(String name) {
-        if (instance == null) {
-            instance = new Organization(name);
-        }
-        return instance;
-    }
-
-    public static Organization getInstance() {
-        return Organization.getInstance("Organization");
     }
 
     public Offering createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
