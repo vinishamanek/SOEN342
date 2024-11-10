@@ -13,6 +13,18 @@ import soen342.reservation.*;
 public class Populate {
     public static void main(String[] args) {
         deleteDatabaseFile();
+        populateDatabaseFile();
+    }
+
+    public static void deleteDatabaseFile() {
+        String dbFilePath = "soen342db.mv.db";
+        java.io.File dbFile = new java.io.File(dbFilePath);
+        if (dbFile.exists()) {
+            dbFile.delete();
+        }
+    }
+
+    public static void populateDatabaseFile() {
         JPAUtil.init();
         OrganizationMapper organizationMapper = new OrganizationMapper();
         LessonMapper lessonMapper = new LessonMapper();
@@ -82,14 +94,6 @@ public class Populate {
         locationMapper.close();
         bookingMapper.close();
         JPAUtil.closeEntityManagerFactory();
-    }
-
-    private static void deleteDatabaseFile() {
-        String dbFilePath = "soen342db.mv.db";
-        java.io.File dbFile = new java.io.File(dbFilePath);
-        if (dbFile.exists()) {
-            dbFile.delete();
-        }
     }
 
 }
