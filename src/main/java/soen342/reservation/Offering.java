@@ -22,9 +22,8 @@ public class Offering {
     @JoinColumn(nullable = false)
     private Space space;
 
-    // @OneToOne
-    // @JoinColumn(nullable = false, unique = true)
-    @Transient
+    @OneToOne
+    @JoinColumn(nullable = false, unique = true)
     private TimeSlot timeslot;
 
     @ManyToOne(optional = true)

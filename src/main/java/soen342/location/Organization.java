@@ -40,8 +40,8 @@ public class Organization {
     }
 
     public Offering createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
-        space.addTimeSlot(timeslot);
-        return lesson.addOffering(capacity, space, timeslot);
+        // @todo: delete this method
+        return new Offering();
     }
 
     public List<Offering> getAvailableInstructorOfferings(Instructor instructor) {

@@ -1,5 +1,7 @@
 package soen342.location;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import soen342.reservation.Schedule;
 import soen342.reservation.TimeSlot;
@@ -51,6 +53,10 @@ public class Space {
 
     public void addTimeSlot(TimeSlot timeSlot) {
         schedule.addTimeSlot(timeSlot);
+    }
+
+    public List<TimeSlot> getTimeSlots() {
+        return schedule.getTimeSlots();
     }
 }
 

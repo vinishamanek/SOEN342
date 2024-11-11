@@ -65,17 +65,31 @@ public class Populate {
         organization.addOwnedSpace(ulavalGym);
         organizationMapper.update(organization);
 
+        // START CREATE OFFERING PROCEDURE
+
+        // 1. Create & persist TimeSlots
         TimeSlot timeslot1 = new TimeSlot(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 30));
         TimeSlot timeslot2 = new TimeSlot(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(12, 30));
+        leGym.addTimeSlot(timeslot1);
+        ulavalGym.addTimeSlot(timeslot2);
+        locationMapper.update(EVBuilding); // after this, timeslot1's reference is no longer equal to
+                                           // EVBuilding.leGym.timeslots.get(0)!!
+        locationMapper.update(ULaval); // after this, timeslot2's reference is no longer equal to
+                                       // ULaval.ulavalGym.timeslots.get(0)!!
 
-        Offering o1 = organization.createOffering(swimmingLesson, 10, leGym, timeslot1);
-        Offering o2 = organization.createOffering(judoLesson, 20, ulavalGym, timeslot2);
+        // 2. Retrieve 'hibernate-managed' timeslot instances
+        timeslot1 = EVBuilding.getSpaces().get(0).getTimeSlots().get(0);
+        timeslot2 = ULaval.getSpaces().get(0).getTimeSlots().get(0);
 
-        // persist the timeslots first so that the offerings can reference them
-        locationMapper.update(EVBuilding);
-        locationMapper.update(ULaval);
+        // 3. Create offerings using managed timeslot instances
+        Offering o1 = swimmingLesson.addOffering(10, leGym, timeslot1);
+        Offering o2 = judoLesson.addOffering(20, ulavalGym, timeslot2);
+
+        // 4. Persist the offerings
         offeringMapper.create(o1);
         offeringMapper.create(o2);
+
+        // END CREATE OFFERING PROCEDURE
 
         Instructor i = new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),
                 "Swimming");
