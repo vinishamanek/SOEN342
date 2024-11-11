@@ -72,10 +72,8 @@ public class Populate {
         TimeSlot timeslot2 = new TimeSlot(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(12, 30));
         leGym.addTimeSlot(timeslot1);
         ulavalGym.addTimeSlot(timeslot2);
-        locationMapper.update(EVBuilding); // after this, timeslot1's reference is no longer equal to
-                                           // EVBuilding.leGym.timeslots.get(0)!!
-        locationMapper.update(ULaval); // after this, timeslot2's reference is no longer equal to
-                                       // ULaval.ulavalGym.timeslots.get(0)!!
+        locationMapper.update(EVBuilding);
+        locationMapper.update(ULaval);
 
         // 2. Retrieve 'hibernate-managed' timeslot instances
         timeslot1 = EVBuilding.getSpaces().get(0).getTimeSlots().get(0);
