@@ -39,11 +39,6 @@ public class Organization {
         this.name = name;
     }
 
-    public Offering createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
-        // @todo: delete this method
-        return new Offering();
-    }
-
     public List<Offering> getAvailableInstructorOfferings(Instructor instructor) {
         List<Offering> offerings = new ArrayList<Offering>();
         for (Lesson lesson : Lessons) {
@@ -92,6 +87,10 @@ public class Organization {
 
     public List<Space> getOwnedSpaces() {
         return ownedSpaces;
+    }
+
+    public Lesson getLastLesson() {
+        return Lessons.get(Lessons.size() - 1);
     }
 
 }

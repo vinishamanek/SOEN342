@@ -19,13 +19,19 @@ public class Console {
 
     private User user;
     private Scanner scanner;
+    private LocationMapper locationMapper;
+    private OfferingMapper offeringMapper;
     private OrganizationMapper organizationMapper;
+    private SpaceMapper spaceMapper;
     private UserMapper userMapper;
 
     public Console(User user) {
         this.setUser(user);
         this.scanner = new Scanner(System.in);
+        this.locationMapper = new LocationMapper();
+        this.offeringMapper = new OfferingMapper();
         this.organizationMapper = new OrganizationMapper();
+        this.spaceMapper = new SpaceMapper();
         this.userMapper = new UserMapper();
     }
 
@@ -128,10 +134,17 @@ public class Console {
                     LocalTime endTime = parseTime(endTimeInput);
 
                     Lesson lesson = new Lesson(lessonName);
-                    TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
+                    this.user.getOrganization().addLesson(lesson);
+                    this.organizationMapper.update(this.user.getOrganization());
+                    lesson = this.user.getOrganization().getLastLesson();
 
-                    Admin admin = (Admin) this.user;
-                    admin.createOffering(lesson, capacity, selectedSpace, timeslot);
+                    TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
+                    selectedSpace.addTimeSlot(timeslot);
+                    this.locationMapper.update(selectedSpace.getLocation());
+                    timeslot = selectedSpace.getLastTimeSlot();
+                    Offering offering = lesson.addOffering(capacity, selectedSpace, timeslot);
+                    this.offeringMapper.create(offering);
+
                     System.out.println("Offering created successfully:");
                     break;
                 case 'e':
@@ -314,8 +327,11 @@ public class Console {
 
     public void cleanup() {
         scanner.close();
-        this.userMapper.close();
+        this.locationMapper.close();
+        this.offeringMapper.close();
         this.organizationMapper.close();
+        this.spaceMapper.close();
+        this.userMapper.close();
     }
 
     private void setUser(User user) {

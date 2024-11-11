@@ -76,8 +76,8 @@ public class Populate {
         locationMapper.update(ULaval);
 
         // 2. Retrieve 'hibernate-managed' timeslot instances
-        timeslot1 = EVBuilding.getSpaces().get(0).getTimeSlots().get(0);
-        timeslot2 = ULaval.getSpaces().get(0).getTimeSlots().get(0);
+        timeslot1 = EVBuilding.getSpaces().get(0).getLastTimeSlot();
+        timeslot2 = ULaval.getSpaces().get(0).getLastTimeSlot();
 
         // 3. Create offerings using managed timeslot instances
         Offering o1 = swimmingLesson.addOffering(10, leGym, timeslot1);

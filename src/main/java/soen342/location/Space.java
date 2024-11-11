@@ -58,6 +58,10 @@ public class Space {
     public List<TimeSlot> getTimeSlots() {
         return schedule.getTimeSlots();
     }
+
+    public TimeSlot getLastTimeSlot() {
+        return this.getTimeSlots().get(this.getTimeSlots().size() - 1);
+    }
 }
 
 // package soen342.location;

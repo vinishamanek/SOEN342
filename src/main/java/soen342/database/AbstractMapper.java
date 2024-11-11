@@ -3,8 +3,8 @@ package soen342.database;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-public abstract class AbstractMapper<T> {
-    protected EntityManager entityManager;
+public class AbstractMapper<T> {
+    protected static EntityManager entityManager;
 
     public AbstractMapper() {
         entityManager = JPAUtil.getEntityManager();

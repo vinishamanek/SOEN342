@@ -28,10 +28,6 @@ public class Admin extends User {
         return instance;
     }
 
-    public void createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeslot) {
-        this.getOrganization().createOffering(lesson, capacity, space, timeslot);
-    }
-
     public void deleteAccount(User user) {
         // admin can delete account of instructor or client
         // method will be defined later on
