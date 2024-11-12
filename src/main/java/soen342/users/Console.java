@@ -363,24 +363,13 @@ public class Console {
                     String bookingFor = prompt().toLowerCase();
                     Client targetClient = client;
                         if (bookingFor.equals("underage")) {
-                            List<Client> underageClients = client.getUnderageClients();
-                            if (underageClients.isEmpty()) {
-                                System.out.println("no underage clients found. please create one first.");
-                                break;
-                            }
-
-                            System.out.println("select an underage client:");
-                            for (int i = 0; i < underageClients.size(); i++) {
-                                System.out.println((i + 1) + ". " + underageClients.get(i).getEmail());
-                            }
-                            int choice = Integer.parseInt(prompt()) - 1;
-                            if (choice >= 0 && choice < underageClients.size()) {
-                                targetClient = underageClients.get(choice);
-                            } else {
-                                System.out.println("invalid selection.");
-                                break;
-                            }
-
+                        List<Client> underageClients = client.getUnderageClients();
+                        if (underageClients.isEmpty()) {
+                            System.out.println("no underage clients found. please create one first.");
+                            break;
+                        }
+                        Client underageClientSelected = selectFromItems(underageClients);
+                        targetClient = underageClientSelected;
                         availableOfferings = targetClient.getAvailableClientOfferings();
                         listOfferings(availableOfferings);
 
