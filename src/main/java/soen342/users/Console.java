@@ -285,6 +285,7 @@ public class Console {
     private void clientMenu() {
         Client client = (Client) this.user;
         List<Offering> availableOfferings;
+        BookingMapper bookingMapper = new BookingMapper();
 
         while (true) {
             System.out
@@ -307,22 +308,86 @@ public class Console {
                         break;
                     }
 
-                    System.out.println("enter the number associated with the offering you'd like to book:");
+                    System.out.println("do you want to make a booking for yourself or an underage client? (self/underage)");
+                    String bookingFor = prompt().toLowerCase();
 
-                    if (scanner.hasNextInt()) {
-                        int offeringIndex = scanner.nextInt();
-                        scanner.nextLine();
+                    if (bookingFor.equals("underage")) {
+                        System.out.println("do you want to create a new underage client? (yes/no)");
+                        String createNew = prompt().toLowerCase();
+                        
+                        Client targetClient = client;
 
-                        if (offeringIndex > 0 && offeringIndex <= availableOfferings.size()) {
-                            Offering selectedOffering = availableOfferings.get(offeringIndex - 1);
-                            client.createBooking(selectedOffering);
-                            System.out.println("booking created successfully!");
+                        if (createNew.equals("yes")) {
+                            System.out.println("enter email for the underage client:");
+                            String underageEmail = prompt();
+                            System.out.println("enter age for the underage client:");
+                            int underageAge = Integer.parseInt(prompt());
+
+                            client.addUnderageClient(underageEmail, underageAge);
+                            targetClient = client.getUnderageClients().get(client.getUnderageClients().size() - 1);
+                            System.out.println("underage client " + targetClient.getEmail() + " created successfully.");
                         } else {
-                            System.out.println("error...");
+                            List<Client> underageClients = client.getUnderageClients();
+                            if (underageClients.isEmpty()) {
+                                System.out.println("no underage clients found. please create one first.");
+                                break;
+                            }
+
+                            System.out.println("select an underage client:");
+                            for (int i = 0; i < underageClients.size(); i++) {
+                                System.out.println((i + 1) + ". " + underageClients.get(i).getEmail());
+                            }
+                            int choice = Integer.parseInt(prompt()) - 1;
+                            if (choice >= 0 && choice < underageClients.size()) {
+                                targetClient = underageClients.get(choice);
+                            } else {
+                                System.out.println("invalid selection.");
+                                break;
+                            }
+                        }
+
+                        availableOfferings = targetClient.getAvailableClientOfferings();
+                        listOfferings(availableOfferings);
+
+                        if (availableOfferings.isEmpty()) {
+                            System.out.println("no available offerings to book.");
+                            break;
+                        }
+
+                        System.out.println("enter the number associated with the offering you'd like to book:");
+                        int offeringIndex = Integer.parseInt(prompt()) - 1;
+
+                        if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
+                            Offering selectedOffering = availableOfferings.get(offeringIndex);
+                            Booking underageBooking = new Booking(client, selectedOffering);
+                            bookingMapper.create(underageBooking);
+                            System.out.println("booking created successfully for " + targetClient.getEmail() + "!");
+                        } else {
+                            System.out.println("error: Invalid offering number.");
                         }
                     } else {
-                        System.out.println("error: enter a valid number.");
-                        scanner.nextLine();
+                        availableOfferings = client.getAvailableClientOfferings();
+                        listOfferings(availableOfferings);
+
+                        if (availableOfferings.isEmpty()) {
+                            System.out.println("no available offerings to book.");
+                            break;
+                        }
+
+                        System.out.println("enter the number associated with the offering you'd like to book:");
+                        int offeringIndex = Integer.parseInt(prompt()) - 1;
+
+                        if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
+                            Offering selectedOffering = availableOfferings.get(offeringIndex);
+                            
+                            Booking booking = new Booking(client, selectedOffering);
+                            bookingMapper.create(booking);
+
+                            client.createBooking(selectedOffering);
+                            System.out.println("Booking created successfully!");
+                        } else {
+                            System.out.println("Error: Invalid offering number.");
+                        }
                     }
                     break;
                 case 'v':
