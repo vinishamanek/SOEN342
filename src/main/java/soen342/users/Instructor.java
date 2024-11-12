@@ -12,13 +12,12 @@ import soen342.reservation.Offering;
 @Table(name = "instructors")
 public class Instructor extends User {
 
-    // @ManyToMany
-    // @JoinTable(
-    // name = "instructor_cities",
-    // joinColumns = @JoinColumn(name = "instructor_id"),
-    // inverseJoinColumns = @JoinColumn(name = "city_id")
-    // )
-    @Transient
+    @ManyToMany
+    @JoinTable(
+    name = "instructor_cities",
+    joinColumns = @JoinColumn(name = "instructor_id"),
+    inverseJoinColumns = @JoinColumn(name = "city_id")
+    )
     private List<City> availableCities;
 
     @Column(nullable = false)

@@ -4,10 +4,15 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import soen342.database.*;
+import soen342.location.City;
+import soen342.location.Location;
 import soen342.location.Organization;
 import soen342.location.Space;
 import soen342.reservation.Booking;
@@ -51,7 +56,7 @@ public class Console {
 
     private void defaultMenu() {
         while (true) {
-            System.out.println("v: view offerings | l: login | e: exit");
+            System.out.println("v: view offerings | l: login | s: signup | e: exit");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
@@ -64,6 +69,9 @@ public class Console {
                     login();
                     run();
                     break;
+                case 's':
+                    signup();
+                    break;
                 case 'e':
                     System.out.println("Exiting...");
                     return;
@@ -71,6 +79,70 @@ public class Console {
                     System.out.println("Invalid operation. Please enter 'v', 'l', or 'e'.");
                     break;
             }
+        }
+    }
+
+    private void signup() {
+        System.out.println("select which role you wish to sign up as: ");
+        System.out.println("1. client");
+        System.out.println("2. instructor");
+
+        int roleChoice = Integer.parseInt(prompt());
+        Organization organization = this.organizationMapper.getDefault();
+
+        System.out.println("enter email: ");
+        String email = prompt();
+
+        System.out.println("enter password: ");
+        String password = prompt();
+
+        if (roleChoice == 1) {
+            System.out.println("enter age: ");
+            int age = Integer.parseInt(prompt());
+
+            Client newClient = new Client(email, password, organization, age);
+
+            userMapper.create(newClient);
+            System.out.println("client account created successfully for " + newClient.getEmail() + "!");
+
+        } else if (roleChoice == 2) {
+            System.out.println("enter specialization: ");
+            String specialization = prompt();
+
+            Set<City> allCitiesSet = new HashSet<>();
+            for (Space space : organization.getOwnedSpaces()) {
+                Location location = space.getLocation();
+                if (location != null && location.getCity() != null) {
+                    allCitiesSet.add(location.getCity());
+                }
+            }
+            List<City> allCities = new ArrayList<>(allCitiesSet);
+
+            System.out.println("available cities:");
+            for (int i = 0; i < allCities.size(); i++) {
+                System.out.println((i + 1) + ". " + allCities.get(i).getName());
+            }
+
+            System.out.println("enter city numbers (comma-separated) where you're available to teach: ");
+            String[] cityChoices = prompt().split(",");
+            List<City> selectedCities = new ArrayList<>();
+
+            for (String choice : cityChoices) {
+                try {
+                    int index = Integer.parseInt(choice.trim()) - 1;
+                    if (index >= 0 && index < allCities.size()) {
+                        selectedCities.add(allCities.get(index));
+                    } else {
+                        System.out.println("city number " + (index + 1) + " is out of range.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("invalid input: " + choice.trim());
+                }
+            }
+
+            Instructor newInstructor = new Instructor(email, password, organization, selectedCities, specialization);
+            userMapper.create(newInstructor);
+            System.out.println("instructor account created successfully " + newInstructor.getEmail() + "!");
         }
     }
 
@@ -249,22 +321,20 @@ public class Console {
                         scanner.nextLine();
                     }
                     break;
-
                 case 'v':
                     client.viewBookings();
                     break;
                 case 'c':
-                    client.viewBookings(); // Show current bookings first
-                    if (!client.getBookings().isEmpty()) { // Ensure there are bookings to cancel
+                    client.viewBookings();
+                    if (!client.getBookings().isEmpty()) {
                         System.out.println("Enter the number associated with the booking you'd like to cancel:");
 
                         if (scanner.hasNextInt()) {
                             int bookingIndex = scanner.nextInt();
-                            scanner.nextLine(); // Consume the newline
+                            scanner.nextLine();
 
                             if (bookingIndex > 0 && bookingIndex <= client.getBookings().size()) {
-                                Booking bookingToCancel = client.getBookings().get(bookingIndex - 1); // Adjust for
-                                                                                                      // 0-based index
+                                Booking bookingToCancel = client.getBookings().get(bookingIndex - 1);
                                 client.cancelBooking(bookingToCancel.getOffering());
                                 System.out.println("Booking canceled successfully!");
                             } else {
@@ -272,7 +342,7 @@ public class Console {
                             }
                         } else {
                             System.out.println("Error: Please enter a valid number.");
-                            scanner.nextLine(); // Clear the invalid input
+                            scanner.nextLine();
                         }
                     } else {
                         System.out.println("No bookings available to cancel.");

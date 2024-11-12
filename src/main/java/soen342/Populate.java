@@ -95,8 +95,8 @@ public class Populate {
         userMapper.create(i);
         userMapper.create(new Instructor("jim@concordia.ca", "password", organization,
                 Arrays.asList(montreal, quebecCity), "Judo"));
-        userMapper.create(new Client("michael@concordia.ca", "password", organization));
-        userMapper.create(new Client("angela@concordia.ca", "password", organization));
+        userMapper.create(new Client("michael@concordia.ca", "password", organization, 50));
+        userMapper.create(new Client("angela@concordia.ca", "password", organization, 40));
 
         i.selectOffering(swimmingLesson.getOfferings().get(0));
         offeringMapper.update(swimmingLesson.getOfferings().get(0));
