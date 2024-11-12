@@ -164,7 +164,7 @@ public class Console {
 
     private void adminMenu() {
         while (true) {
-            System.out.println("c: create offering | e: logout");
+            System.out.println("o: create offering | l: create lesson | e: logout");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
@@ -204,6 +204,14 @@ public class Console {
                     this.offeringMapper.create(offering);
 
                     System.out.println("Offering created successfully:");
+                    break;
+                case 'l':
+                    System.out.println("Enter lesson name: ");
+                    String name = prompt();
+                    Lesson newLesson = new Lesson(name);
+                    this.user.getOrganization().addLesson(newLesson);
+                    this.organizationMapper.update(this.user.getOrganization());
+                    System.out.println("Lesson created successfully.");
                     break;
                 case 'e':
                     System.out.println("Logging out...");
