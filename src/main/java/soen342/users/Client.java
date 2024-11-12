@@ -16,9 +16,8 @@ import soen342.reservation.Booking;
 public class Client extends User {
 
     
-    // @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval =
-    // true)
-    @Transient
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    // @Transient
     private List<Booking> bookings = new ArrayList<>();
 
     @Column(nullable = false)

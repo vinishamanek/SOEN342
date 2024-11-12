@@ -96,14 +96,21 @@ public class Populate {
         userMapper.create(new Instructor("jim@concordia.ca", "password", organization,
                 Arrays.asList(montreal, quebecCity), "Judo"));
         userMapper.create(new Client("michael@concordia.ca", "password", organization, 50));
+        
         Client angela = new Client("angela@concordia.ca", "password", organization, 40);
         userMapper.create(angela);
+
+        Client underageClient = new Client("child", organization, 11, angela);
+        userMapper.create(underageClient);
 
         i.selectOffering(swimmingLesson.getOfferings().get(0));
         offeringMapper.update(swimmingLesson.getOfferings().get(0));
 
-        Booking booking = new Booking(angela, o1);
-        bookingMapper.create(booking);
+        Booking booking1 = new Booking(angela, o1);
+        bookingMapper.create(booking1);
+
+        Booking booking2 = new Booking(underageClient, o1);
+        bookingMapper.create(booking2);
 
         organizationMapper.close();
         lessonMapper.close();
