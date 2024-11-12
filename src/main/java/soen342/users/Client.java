@@ -1,6 +1,7 @@
 package soen342.users;
 // need to add stuff for minors
 
+import soen342.database.BookingMapper;
 import soen342.database.UserMapper;
 import soen342.location.Organization;
 import soen342.reservation.Offering;
@@ -15,9 +16,8 @@ import soen342.reservation.Booking;
 @Table(name = "clients")
 public class Client extends User {
 
-    
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     // @Transient
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
     @Column(nullable = false)
@@ -26,7 +26,6 @@ public class Client extends User {
     @ManyToOne
     @JoinColumn(name = "guardian_id")
     private Client guardian; // used for the constructor for underage clients
-  
 
     @OneToMany(mappedBy = "guardian", cascade = CascadeType.ALL)
     private List<Client> underageClients = new ArrayList<>();
@@ -99,6 +98,10 @@ public class Client extends User {
         System.out.println("booking created for offering: " + offering.toString() + " for client: " + this.getEmail());
     }
 
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+
     public void viewBookings() {
         if (bookings.isEmpty()) {
             System.out.println("you have no current bookings.");
@@ -112,7 +115,8 @@ public class Client extends User {
 
         if (!underageClients.isEmpty()) {
             for (Client underageClient : underageClients) {
-                System.out.println("\nbookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "):");
+                System.out.println(
+                        "\nbookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "):");
                 if (underageClient.getBookings().isEmpty()) {
                     System.out.println("no current bookings.");
                 } else {
@@ -125,19 +129,20 @@ public class Client extends User {
         }
     }
 
-    public void cancelBooking(Offering offering) {
+    public void cancelBooking(Booking booking) {
         Booking bookingToRemove = null;
-        for (Booking booking : bookings) {
-            if (booking.getOffering().equals(offering)) {
+        for (Booking currentBooking : bookings) {
+            if (currentBooking.equals(booking)) {
                 bookingToRemove = booking;
                 break;
             }
         }
         if (bookingToRemove != null) {
             bookings.remove(bookingToRemove);
-            System.out.println("booking cancelled for offering: " + offering.toString());
+            System.out.println("Booking canceled for offering: " + bookingToRemove.getOffering().toString());
         } else {
             System.out.println("no booking found for the offering specified");
         }
     }
+
 }

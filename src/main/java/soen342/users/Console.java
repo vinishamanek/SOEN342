@@ -20,8 +20,6 @@ import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.reservation.TimeSlot;
 
-
-
 // idea to add the child in the signup? 
 // would you like to add a child to your account? (yes/no)
 
@@ -328,7 +326,8 @@ public class Console {
 
         while (true) {
             System.out
-                    .println("a: add underage client | o: view offerings | m: make booking | v: view bookings | c: cancel booking | e: logout");
+                    .println(
+                            "a: add underage client | o: view offerings | m: make booking | v: view bookings | c: cancel booking | e: logout");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
@@ -337,11 +336,12 @@ public class Console {
                     String underageEmail = prompt();
                     System.out.println("enter the age of the underage client:");
                     int underageAge = Integer.parseInt(prompt());
-                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge, client);
-                    userMapper.create(underageClient);
+                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge,
+                            client);
                     client.addUnderageClient(underageClient);
-                    userMapper.update(client);
-                    System.out.println("underage client "  + underageClient + " added successfully for client "  + client);
+                    client = (Client) userMapper.update(client);
+                    System.out
+                            .println("underage client " + underageClient + " added successfully for client " + client);
                     break;
                 case 'o':
                     availableOfferings = client.getAvailableClientOfferings();
@@ -362,7 +362,7 @@ public class Console {
                             "do you want to make a booking for yourself or an underage client? (self/underage)");
                     String bookingFor = prompt().toLowerCase();
                     Client targetClient = client;
-                        if (bookingFor.equals("underage")) {
+                    if (bookingFor.equals("underage")) {
                         List<Client> underageClients = client.getUnderageClients();
                         if (underageClients.isEmpty()) {
                             System.out.println("no underage clients found. please create one first.");
@@ -386,9 +386,9 @@ public class Console {
                             Booking underageBooking = new Booking(targetClient, selectedOffering);
                             bookingMapper.create(underageBooking);
                             System.out.println("booking created successfully for " + targetClient.getEmail() + "!");
-                            userMapper.update(client);
-                            userMapper.update(targetClient);
-                            bookingMapper.update(underageBooking);
+                            // client = (Client) userMapper.update(client);
+                            // targetClient = (Client) userMapper.update(targetClient);
+                            targetClient.addBooking(underageBooking);
                         } else {
                             System.out.println("error: Invalid offering number.");
                         }
@@ -411,7 +411,7 @@ public class Console {
                             bookingMapper.create(booking);
 
                             client.createBooking(selectedOffering);
-                            userMapper.update(client);
+                            client = (Client) userMapper.update(client);
                             bookingMapper.update(booking);
                             System.out.println("Booking created successfully!");
                         } else {
@@ -423,25 +423,35 @@ public class Console {
                     client.viewBookings();
                     break;
                 case 'c':
-                    client.viewBookings();
-                    if (!client.getBookings().isEmpty()) {
-                        System.out.println("Enter the number associated with the booking you'd like to cancel:");
-
-                        if (scanner.hasNextInt()) {
-                            int bookingIndex = scanner.nextInt();
-                            scanner.nextLine();
-
-                            if (bookingIndex > 0 && bookingIndex <= client.getBookings().size()) {
-                                Booking bookingToCancel = client.getBookings().get(bookingIndex - 1);
-                                client.cancelBooking(bookingToCancel.getOffering());
-                                System.out.println("Booking canceled successfully!");
+                    System.out.println("Do you want to cancel a booking for yourself or an underage client? (self/underage)");
+                    String cancelFor = prompt().toLowerCase();
+                
+                    if (cancelFor.equals("self")) {
+                        if (!client.getBookings().isEmpty()) {
+                            Booking deleteBooking = selectFromItems(client.getBookings());
+                            client.cancelBooking(deleteBooking);
+                            this.bookingMapper.delete(deleteBooking);
+                        } else {
+                            System.out.println("You have no bookings to cancel.");
+                        }
+                    } else if (cancelFor.equals("underage")) {
+                        List<Client> underageClients = client.getUnderageClients();
+                
+                        if (!underageClients.isEmpty()) {
+                            System.out.println("Select an underage client:");
+                            Client underageClientToCancel = selectFromItems(underageClients);
+                            if (!underageClientToCancel.getBookings().isEmpty()) {
+                                System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
+                                Booking deleteBookingUnderage = selectFromItems(underageClientToCancel.getBookings());
+                                this.bookingMapper.delete(deleteBookingUnderage);
                             } else {
-                                System.out.println("Error: Invalid booking number. Please try again.");
+                                System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
                             }
                         } else {
-                            System.out.println("Error: Please enter a valid number.");
-                            scanner.nextLine();
+                            System.out.println("No underage clients found. Please add one first.");
                         }
+                    } else {
+                        System.out.println("Invalid input. Please enter 'self' or 'underage'.");
                     }
                     break;
                 case 'e':

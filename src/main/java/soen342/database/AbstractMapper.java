@@ -24,12 +24,13 @@ public class AbstractMapper<T> {
         }
     }
 
-    public void update(T entity) {
+    public T update(T entity) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.merge(entity);
+            T t = entityManager.merge(entity);
             transaction.commit();
+            return t;
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
