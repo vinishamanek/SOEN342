@@ -24,6 +24,7 @@ public class Console {
 
     private User user;
     private Scanner scanner;
+    private BookingMapper bookingMapper;
     private LocationMapper locationMapper;
     private OfferingMapper offeringMapper;
     private OrganizationMapper organizationMapper;
@@ -33,6 +34,7 @@ public class Console {
     public Console(User user) {
         this.setUser(user);
         this.scanner = new Scanner(System.in);
+        this.bookingMapper = new BookingMapper();
         this.locationMapper = new LocationMapper();
         this.offeringMapper = new OfferingMapper();
         this.organizationMapper = new OrganizationMapper();
@@ -164,7 +166,8 @@ public class Console {
 
     private void adminMenu() {
         while (true) {
-            System.out.println("o: create offering | l: create lesson | e: logout");
+            System.out.println(
+                    "o: create offering | l: create lesson | v: view bookings | c: cancel booking | a: view accounts | d: delete account |  e: logout");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
@@ -209,11 +212,41 @@ public class Console {
                     this.organizationMapper.update(this.user.getOrganization());
                     System.out.println("Lesson created successfully.");
                     break;
+                case 'v':
+                    List<Booking> bookings = this.bookingMapper.findAll();
+                    this.listItems(bookings);
+                    break;
+                case 'c':
+                    List<Booking> allBookings = this.bookingMapper.findAll();
+                    if (allBookings.isEmpty()) {
+                        System.out.println("There are no bookings to cancel.");
+                    } else {
+                        System.out.println("Select the booking you'd like to cancel:");
+                        Booking selectedBooking = this.selectFromItems(allBookings);
+                        this.bookingMapper.delete(selectedBooking);
+                        System.out.println("Booking canceled successfully.");
+                    }
+                    break;
+                case 'a':
+                    List<User> users = this.userMapper.findAllNonAdmins();
+                    this.listItems(users);
+                    break;
+                case 'd':
+                    List<User> allUsers = this.userMapper.findAllNonAdmins();
+                    if (allUsers.isEmpty()) {
+                        System.out.println("There are no accounts to delete.");
+                    } else {
+                        System.out.println("Select the account you'd like to delete:");
+                        User selectedUser = this.selectFromItems(allUsers);
+                        this.userMapper.delete(selectedUser);
+                        System.out.println("Account deleted successfully.");
+                    }
+                    break;
                 case 'e':
                     System.out.println("Logging out...");
                     return;
                 default:
-                    System.out.println("Invalid operation. Please enter 'o', 'l', or 'e'.");
+                    System.out.println("Invalid operation. Please enter 'o', 'l', 'v', 'c', 'a', 'd', or 'e'.");
                     break;
             }
         }
@@ -309,13 +342,14 @@ public class Console {
                         break;
                     }
 
-                    System.out.println("do you want to make a booking for yourself or an underage client? (self/underage)");
+                    System.out.println(
+                            "do you want to make a booking for yourself or an underage client? (self/underage)");
                     String bookingFor = prompt().toLowerCase();
 
                     if (bookingFor.equals("underage")) {
                         System.out.println("do you want to create a new underage client? (yes/no)");
                         String createNew = prompt().toLowerCase();
-                        
+
                         Client targetClient = client;
 
                         if (createNew.equals("yes")) {
@@ -383,7 +417,7 @@ public class Console {
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
                             Offering selectedOffering = availableOfferings.get(offeringIndex);
-                            
+
                             Booking booking = new Booking(client, selectedOffering);
                             bookingMapper.create(booking);
 
@@ -473,6 +507,7 @@ public class Console {
 
     public void cleanup() {
         scanner.close();
+        this.bookingMapper.close();
         this.locationMapper.close();
         this.offeringMapper.close();
         this.organizationMapper.close();
