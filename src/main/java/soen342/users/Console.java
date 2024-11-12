@@ -167,7 +167,7 @@ public class Console {
     private void adminMenu() {
         while (true) {
             System.out.println(
-                    "o: create offering | l: create lesson | v: view bookings | c: cancel booking | e: logout");
+                    "o: create offering | l: create lesson | v: view bookings | c: cancel booking | a: view accounts | d: delete account |  e: logout");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
@@ -227,11 +227,26 @@ public class Console {
                         System.out.println("Booking canceled successfully.");
                     }
                     break;
+                case 'a':
+                    List<User> users = this.userMapper.findAllNonAdmins();
+                    this.listItems(users);
+                    break;
+                case 'd':
+                    List<User> allUsers = this.userMapper.findAllNonAdmins();
+                    if (allUsers.isEmpty()) {
+                        System.out.println("There are no accounts to delete.");
+                    } else {
+                        System.out.println("Select the account you'd like to delete:");
+                        User selectedUser = this.selectFromItems(allUsers);
+                        this.userMapper.delete(selectedUser);
+                        System.out.println("Account deleted successfully.");
+                    }
+                    break;
                 case 'e':
                     System.out.println("Logging out...");
                     return;
                 default:
-                    System.out.println("Invalid operation. Please enter 'o', 'l', 'v', 'c', or 'e'.");
+                    System.out.println("Invalid operation. Please enter 'o', 'l', 'v', 'c', 'a', 'd', or 'e'.");
                     break;
             }
         }

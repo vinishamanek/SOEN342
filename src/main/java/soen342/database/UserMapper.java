@@ -35,4 +35,10 @@ public class UserMapper extends AbstractMapper<User> {
                 "SELECT u FROM User u", User.class);
         return query.getResultList();
     }
+
+    public List<User> findAllNonAdmins() {
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE TYPE(u) != Admin", User.class);
+        return query.getResultList();
+    }
 }
