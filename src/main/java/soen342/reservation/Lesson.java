@@ -39,4 +39,8 @@ public class Lesson {
     public List<Offering> getOfferings() {
         return offerings;
     }
+
+    public String toString() {
+        return name;
+    }
 }

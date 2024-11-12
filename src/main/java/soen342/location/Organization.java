@@ -6,7 +6,6 @@ import java.util.List;
 import jakarta.persistence.*;
 import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
-import soen342.reservation.TimeSlot;
 import soen342.users.Instructor;
 import soen342.users.Client;
 
@@ -79,6 +78,10 @@ public class Organization {
 
     public void addLesson(Lesson lesson) {
         Lessons.add(lesson);
+    }
+
+    public List<Lesson> getLessons() {
+        return Lessons;
     }
 
     public void addOwnedSpace(Space space) {

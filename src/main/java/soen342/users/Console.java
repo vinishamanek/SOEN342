@@ -168,9 +168,10 @@ public class Console {
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
-                case 'c':
-                    System.out.println("Enter lesson name: ");
-                    String lessonName = prompt();
+                case 'o':
+                    System.out.println("All lessons: ");
+                    List<Lesson> lessons = this.user.getOrganization().getLessons();
+                    Lesson selectedLesson = selectFromItems(lessons);
 
                     System.out.println("Enter capacity: ");
                     int capacity = Integer.parseInt(prompt());
@@ -191,16 +192,11 @@ public class Console {
                     String endTimeInput = prompt();
                     LocalTime endTime = parseTime(endTimeInput);
 
-                    Lesson lesson = new Lesson(lessonName);
-                    this.user.getOrganization().addLesson(lesson);
-                    this.organizationMapper.update(this.user.getOrganization());
-                    lesson = this.user.getOrganization().getLastLesson();
-
                     TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
                     selectedSpace.addTimeSlot(timeslot);
                     this.locationMapper.update(selectedSpace.getLocation());
                     timeslot = selectedSpace.getLastTimeSlot();
-                    Offering offering = lesson.addOffering(capacity, selectedSpace, timeslot);
+                    Offering offering = selectedLesson.addOffering(capacity, selectedSpace, timeslot);
                     this.offeringMapper.create(offering);
 
                     System.out.println("Offering created successfully:");
@@ -217,7 +213,7 @@ public class Console {
                     System.out.println("Logging out...");
                     return;
                 default:
-                    System.out.println("Invalid operation. Please enter 'c' or 'e'.");
+                    System.out.println("Invalid operation. Please enter 'o', 'l', or 'e'.");
                     break;
             }
         }
