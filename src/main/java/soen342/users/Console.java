@@ -20,6 +20,11 @@ import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.reservation.TimeSlot;
 
+
+
+// idea to add the child in the signup? 
+// would you like to add a child to your account? (yes/no)
+
 public class Console {
 
     private User user;
@@ -323,10 +328,21 @@ public class Console {
 
         while (true) {
             System.out
-                    .println("o: view offerings | m: make booking | v: view bookings | c: cancel booking | e: logout");
+                    .println("a: add underage client | o: view offerings | m: make booking | v: view bookings | c: cancel booking | e: logout");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
+                case 'a':
+                    System.out.println("enter the email of the underage client you'd like to add:");
+                    String underageEmail = prompt();
+                    System.out.println("enter the age of the underage client:");
+                    int underageAge = Integer.parseInt(prompt());
+                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge, client);
+                    userMapper.create(underageClient);
+                    client.addUnderageClient(underageClient);
+                    userMapper.update(client);
+                    System.out.println("underage client "  + underageClient + " added successfully for client "  + client);
+                    break;
                 case 'o':
                     availableOfferings = client.getAvailableClientOfferings();
                     listOfferings(availableOfferings);
@@ -345,26 +361,8 @@ public class Console {
                     System.out.println(
                             "do you want to make a booking for yourself or an underage client? (self/underage)");
                     String bookingFor = prompt().toLowerCase();
-
-                    if (bookingFor.equals("underage")) {
-                        System.out.println("do you want to create a new underage client? (yes/no)");
-                        String createNew = prompt().toLowerCase();
-
-                        Client targetClient = client;
-
-                        if (createNew.equals("yes")) {
-                            System.out.println("enter email for the underage client:");
-                            String underageEmail = prompt();
-                            System.out.println("enter age for the underage client:");
-                            int underageAge = Integer.parseInt(prompt());
-
-                            Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge, client);
-                            userMapper.create(underageClient);
-                            client.addUnderageClient(underageClient);
-                            targetClient = client.getUnderageClients().get(client.getUnderageClients().size() - 1);
-                            System.out.println("underage client " + targetClient.getEmail() + " created successfully.");
-
-                        } else {
+                    Client targetClient = client;
+                        if (bookingFor.equals("underage")) {
                             List<Client> underageClients = client.getUnderageClients();
                             if (underageClients.isEmpty()) {
                                 System.out.println("no underage clients found. please create one first.");
@@ -382,7 +380,6 @@ public class Console {
                                 System.out.println("invalid selection.");
                                 break;
                             }
-                        }
 
                         availableOfferings = targetClient.getAvailableClientOfferings();
                         listOfferings(availableOfferings);
@@ -397,9 +394,12 @@ public class Console {
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
                             Offering selectedOffering = availableOfferings.get(offeringIndex);
-                            Booking underageBooking = new Booking(client, selectedOffering);
+                            Booking underageBooking = new Booking(targetClient, selectedOffering);
                             bookingMapper.create(underageBooking);
                             System.out.println("booking created successfully for " + targetClient.getEmail() + "!");
+                            userMapper.update(client);
+                            userMapper.update(targetClient);
+                            bookingMapper.update(underageBooking);
                         } else {
                             System.out.println("error: Invalid offering number.");
                         }
@@ -422,6 +422,8 @@ public class Console {
                             bookingMapper.create(booking);
 
                             client.createBooking(selectedOffering);
+                            userMapper.update(client);
+                            bookingMapper.update(booking);
                             System.out.println("Booking created successfully!");
                         } else {
                             System.out.println("Error: Invalid offering number.");
