@@ -59,14 +59,14 @@ public class Client extends User {
 
     public void addUnderageClient(Client underageClient) {
         if (underageClient.age >= 18) {
-            throw new IllegalArgumentException("underage client must be under 18 years old");
+            throw new IllegalArgumentException("Underage client must be under 18 years old");
         }
         this.underageClients.add(underageClient);
     }
 
     public void setGuardian(Client guardian) {
         if (guardian == null || !guardian.isAdult()) {
-            throw new IllegalArgumentException("Guardian must be an adult client");
+            throw new IllegalArgumentException("Guardian must be an adult");
         }
         this.guardian = guardian;
     }
@@ -95,7 +95,7 @@ public class Client extends User {
     public void createBooking(Offering offering) {
         Booking booking = new Booking(this, offering);
         bookings.add(booking);
-        System.out.println("booking created for offering: " + offering.toString() + " for client: " + this.getEmail());
+        System.out.println("Booking created for offering: " + offering.toString() + " for client: " + this.getEmail());
     }
 
     public void addBooking(Booking booking) {
@@ -104,9 +104,9 @@ public class Client extends User {
 
     public void viewBookings() {
         if (bookings.isEmpty()) {
-            System.out.println("you have no current bookings.");
+            System.out.println("You have no current bookings.");
         } else {
-            System.out.println("your current bookings:");
+            System.out.println("\nYour current bookings:");
             for (int i = 0; i < bookings.size(); i++) {
                 Booking booking = bookings.get(i);
                 System.out.println((i + 1) + ". " + booking.toString());
@@ -116,9 +116,9 @@ public class Client extends User {
         if (!underageClients.isEmpty()) {
             for (Client underageClient : underageClients) {
                 System.out.println(
-                        "\nbookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "):");
+                        "\nBookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "):");
                 if (underageClient.getBookings().isEmpty()) {
-                    System.out.println("no current bookings.");
+                    System.out.println("No current bookings.");
                 } else {
                     for (int i = 0; i < underageClient.getBookings().size(); i++) {
                         Booking booking = underageClient.getBookings().get(i);
@@ -141,7 +141,7 @@ public class Client extends User {
             bookings.remove(bookingToRemove);
             System.out.println("Booking canceled for offering: " + bookingToRemove.getOffering().toString());
         } else {
-            System.out.println("no booking found for the offering specified");
+            System.out.println("No booking found for the offering specified");
         }
     }
 

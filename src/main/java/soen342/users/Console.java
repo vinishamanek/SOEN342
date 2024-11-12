@@ -20,9 +20,6 @@ import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.reservation.TimeSlot;
 
-// idea to add the child in the signup? 
-// would you like to add a child to your account? (yes/no)
-
 public class Console {
 
     private User user;
@@ -61,7 +58,12 @@ public class Console {
 
     private void defaultMenu() {
         while (true) {
-            System.out.println("v: view offerings | l: login | s: signup | e: exit");
+            System.out.println("\nMain Menu:");
+            System.out.println("v: View offerings");
+            System.out.println("l: Login");
+            System.out.println("s: Sign up");
+            System.out.println("e: Exit");
+            System.out.print("Select an option: ");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
@@ -88,30 +90,32 @@ public class Console {
     }
 
     private void signup() {
-        System.out.println("select which role you wish to sign up as: ");
-        System.out.println("1. client");
-        System.out.println("2. instructor");
+        System.out.println("\nSign Up Process");
+        System.out.println("Select your role:");
+        System.out.println("1. Client");
+        System.out.println("2. Instructor");
+        System.out.print("Enter your choice (1 or 2): ");
 
         int roleChoice = Integer.parseInt(prompt());
         Organization organization = this.organizationMapper.getDefault();
 
-        System.out.println("enter email: ");
+        System.out.println("Enter email: ");
         String email = prompt();
 
-        System.out.println("enter password: ");
+        System.out.println("Enter password: ");
         String password = prompt();
 
         if (roleChoice == 1) {
-            System.out.println("enter age: ");
+            System.out.println("Enter age: ");
             int age = Integer.parseInt(prompt());
 
             Client newClient = new Client(email, password, organization, age);
 
             userMapper.create(newClient);
-            System.out.println("client account created successfully for " + newClient.getEmail() + "!");
+            System.out.println("Client account created successfully for " + newClient.getEmail() + "!");
 
         } else if (roleChoice == 2) {
-            System.out.println("enter specialization: ");
+            System.out.println("Enter specialization: ");
             String specialization = prompt();
 
             Set<City> allCitiesSet = new HashSet<>();
@@ -123,12 +127,12 @@ public class Console {
             }
             List<City> allCities = new ArrayList<>(allCitiesSet);
 
-            System.out.println("available cities:");
+            System.out.println("Available cities:");
             for (int i = 0; i < allCities.size(); i++) {
                 System.out.println((i + 1) + ". " + allCities.get(i).getName());
             }
 
-            System.out.println("enter city numbers (comma-separated) where you're available to teach: ");
+            System.out.println("Enter city numbers (comma-separated) where you're available to teach: ");
             String[] cityChoices = prompt().split(",");
             List<City> selectedCities = new ArrayList<>();
 
@@ -138,24 +142,24 @@ public class Console {
                     if (index >= 0 && index < allCities.size()) {
                         selectedCities.add(allCities.get(index));
                     } else {
-                        System.out.println("city number " + (index + 1) + " is out of range.");
+                        System.out.println("City number " + (index + 1) + " is out of range.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("invalid input: " + choice.trim());
+                    System.out.println("Invalid input: " + choice.trim());
                 }
             }
 
             Instructor newInstructor = new Instructor(email, password, organization, selectedCities, specialization);
             userMapper.create(newInstructor);
-            System.out.println("instructor account created successfully " + newInstructor.getEmail() + "!");
+            System.out.println("Instructor account created successfully " + newInstructor.getEmail() + "!");
         }
     }
 
     private void login() {
         while (true) {
-            System.out.println("What is your email?");
+            System.out.print("\nEnter email: ");
             String email = prompt();
-            System.out.println("What is your password?");
+            System.out.print("Enter password: ");
             String password = prompt();
             User user = this.userMapper.findByCredentials(email, password);
             if (user != null) {
@@ -169,13 +173,21 @@ public class Console {
 
     private void adminMenu() {
         while (true) {
-            System.out.println(
-                    "o: create offering | l: create lesson | v: view bookings | c: cancel booking | a: view accounts | d: delete account |  e: logout");
+            System.out.println("\nAdmin Menu:");
+            System.out.println("o: Create offering");
+            System.out.println("l: Create lesson");
+            System.out.println("v: View bookings");
+            System.out.println("c: Cancel booking");
+            System.out.println("a: View accounts");
+            System.out.println("d: Delete account");
+            System.out.println("e: Logout");
+            System.out.print("Select an option: ");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
                 case 'o':
-                    System.out.println("All lessons: ");
+                    System.out.println("\nCreating New Offering");
+                    System.out.println("Available lessons: ");
                     List<Lesson> lessons = this.user.getOrganization().getLessons();
                     Lesson selectedLesson = selectFromItems(lessons);
 
@@ -216,6 +228,7 @@ public class Console {
                     System.out.println("Lesson created successfully.");
                     break;
                 case 'v':
+                    System.out.println("\nAll Bookings:");
                     List<Booking> bookings = this.bookingMapper.findAll();
                     this.listItems(bookings);
                     break;
@@ -231,6 +244,7 @@ public class Console {
                     }
                     break;
                 case 'a':
+                    System.out.println("\nAll User Accounts:");
                     List<User> users = this.userMapper.findAllNonAdmins();
                     this.listItems(users);
                     break;
@@ -276,11 +290,17 @@ public class Console {
     private void instructorMenu() {
         Instructor instructor = (Instructor) this.user;
         while (true) {
-            System.out.println("v: view available offerings | s: select offering | e: logout");
+            System.out.println("\nInstructor Menu:");
+            System.out.println("v: View available offerings");
+            System.out.println("s: Select offering");
+            System.out.println("e: Logout");
+            System.out.print("Select an option: ");
+
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
                 case 'v':
+                    System.out.println("\nAvailable Offerings:");
                     List<Offering> availableOfferings = instructor.getAvailableInstructorOfferings();
                     listOfferings(availableOfferings);
                     break;
@@ -291,19 +311,7 @@ public class Console {
                         continue;
                     }
                     System.out.println("Available Offerings:");
-                    for (int i = 0; i < offerings.size(); i++) {
-                        System.out.println((i + 1) + ". " + offerings.get(i).getLesson().getName());
-                    }
-                    System.out.println("Please enter the number of the offering you'd like to select:");
-                    int selectedNumber = 0;
-                    while (true) {
-                        selectedNumber = Integer.parseInt(prompt());
-                        if (selectedNumber >= 1 && selectedNumber <= offerings.size())
-                            break;
-                        System.out.println(
-                                "Invalid selection. Please select a number between 1 and " + offerings.size() + ".");
-                    }
-                    Offering selectedOffering = offerings.get(selectedNumber - 1);
+                    Offering selectedOffering = selectFromItems(offerings);
                     instructor.selectOffering(selectedOffering);
                     System.out.println("You have selected the following offering:");
                     System.out.println(selectedOffering);
@@ -325,47 +333,50 @@ public class Console {
         Organization organization;
 
         while (true) {
-            System.out
-                    .println(
-                            "a: add underage client | o: view offerings | m: make booking | v: view bookings | c: cancel booking | e: logout");
+            System.out.println("\nClient Menu:");
+            System.out.println("a: Add underage client");
+            System.out.println("o: View offerings");
+            System.out.println("m: Make booking");
+            System.out.println("v: View bookings");
+            System.out.println("c: Cancel booking");
+            System.out.println("e: Logout");
+            System.out.print("Select an option: ");
             char operation = prompt().toLowerCase().charAt(0);
 
             switch (operation) {
                 case 'a':
-                    System.out.println("enter the email of the underage client you'd like to add:");
+                    System.out.print("\nEnter email for underage client: ");
                     String underageEmail = prompt();
-                    System.out.println("enter the age of the underage client:");
+                    System.out.println("Enter age for underage client:");
                     int underageAge = Integer.parseInt(prompt());
-                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge,
-                            client);
+                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge,client);
                     client.addUnderageClient(underageClient);
                     client = (Client) userMapper.update(client);
-                    System.out
-                            .println("underage client " + underageClient + " added successfully for client " + client);
+                    System.out.println("Underage client " + underageClient + " added successfully for client " + client);
                     break;
                 case 'o':
+                    System.out.println("\nAvailable Offerings:");
                     availableOfferings = client.getAvailableClientOfferings();
                     listOfferings(availableOfferings);
                     break;
 
                 case 'm':
-                    System.out.println("available offerings to book:");
                     availableOfferings = client.getAvailableClientOfferings();
                     listOfferings(availableOfferings);
 
                     if (availableOfferings.isEmpty()) {
-                        System.out.println("no available offerings to book.");
+                        System.out.println("No available offerings to book.");
                         break;
                     }
 
                     System.out.println(
-                            "do you want to make a booking for yourself or an underage client? (self/underage)");
+                            "Do you want to make a booking for yourself or an underage client? (self/underage)");
                     String bookingFor = prompt().toLowerCase();
                     Client targetClient = client;
                     if (bookingFor.equals("underage")) {
                         List<Client> underageClients = client.getUnderageClients();
                         if (underageClients.isEmpty()) {
-                            System.out.println("no underage clients found. please create one first.");
+                            System.out.println("No underage clients found.");
                             break;
                         }
                         Client underageClientSelected = selectFromItems(underageClients);
@@ -374,34 +385,32 @@ public class Console {
                         listOfferings(availableOfferings);
 
                         if (availableOfferings.isEmpty()) {
-                            System.out.println("no available offerings to book.");
+                            System.out.println("No available offerings to book.");
                             break;
                         }
 
-                        System.out.println("enter the number associated with the offering you'd like to book:");
+                        System.out.println("Enter the number associated with the offering you'd like to book:");
                         int offeringIndex = Integer.parseInt(prompt()) - 1;
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
                             Offering selectedOffering = availableOfferings.get(offeringIndex);
                             Booking underageBooking = new Booking(targetClient, selectedOffering);
                             bookingMapper.create(underageBooking);
-                            System.out.println("booking created successfully for " + targetClient.getEmail() + "!");
-                            // client = (Client) userMapper.update(client);
-                            // targetClient = (Client) userMapper.update(targetClient);
+                            System.out.println("Booking created successfully for " + targetClient.getEmail() + "!");
                             targetClient.addBooking(underageBooking);
                         } else {
-                            System.out.println("error: Invalid offering number.");
+                            System.out.println("Error: Invalid offering number.");
                         }
                     } else {
                         availableOfferings = client.getAvailableClientOfferings();
                         listOfferings(availableOfferings);
 
                         if (availableOfferings.isEmpty()) {
-                            System.out.println("no available offerings to book.");
+                            System.out.println("No available offerings to book.");
                             break;
                         }
 
-                        System.out.println("enter the number associated with the offering you'd like to book:");
+                        System.out.println("Enter the number associated with the offering you'd like to book:");
                         int offeringIndex = Integer.parseInt(prompt()) - 1;
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
@@ -423,12 +432,13 @@ public class Console {
                     client.viewBookings();
                     break;
                 case 'c':
-                    System.out.println("Do you want to cancel a booking for yourself or an underage client? (self/underage)");
+                    System.out.println(
+                            "Do you want to cancel a booking for yourself or an underage client? (self/underage)");
                     String cancelFor = prompt().toLowerCase();
-                
+
                     if (cancelFor.equals("self")) {
                         if (!client.getBookings().isEmpty()) {
-                            Booking deleteBooking = selectFromItems(client.getBookings());
+                            Booking deleteBooking = this.selectFromItems(client.getBookings());
                             client.cancelBooking(deleteBooking);
                             this.bookingMapper.delete(deleteBooking);
                         } else {
@@ -436,13 +446,14 @@ public class Console {
                         }
                     } else if (cancelFor.equals("underage")) {
                         List<Client> underageClients = client.getUnderageClients();
-                
+
                         if (!underageClients.isEmpty()) {
                             System.out.println("Select an underage client:");
-                            Client underageClientToCancel = selectFromItems(underageClients);
+                            Client underageClientToCancel = this.selectFromItems(underageClients);
                             if (!underageClientToCancel.getBookings().isEmpty()) {
                                 System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
-                                Booking deleteBookingUnderage = selectFromItems(underageClientToCancel.getBookings());
+                                Booking deleteBookingUnderage = this
+                                        .selectFromItems(underageClientToCancel.getBookings());
                                 this.bookingMapper.delete(deleteBookingUnderage);
                             } else {
                                 System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
