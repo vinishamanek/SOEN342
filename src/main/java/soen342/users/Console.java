@@ -286,6 +286,7 @@ public class Console {
         Client client = (Client) this.user;
         List<Offering> availableOfferings;
         BookingMapper bookingMapper = new BookingMapper();
+        Organization organization;
 
         while (true) {
             System.out
@@ -323,9 +324,12 @@ public class Console {
                             System.out.println("enter age for the underage client:");
                             int underageAge = Integer.parseInt(prompt());
 
-                            client.addUnderageClient(underageEmail, underageAge);
+                            Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge, client);
+                            userMapper.create(underageClient);
+                            client.addUnderageClient(underageClient);
                             targetClient = client.getUnderageClients().get(client.getUnderageClients().size() - 1);
                             System.out.println("underage client " + targetClient.getEmail() + " created successfully.");
+
                         } else {
                             List<Client> underageClients = client.getUnderageClients();
                             if (underageClients.isEmpty()) {
@@ -413,8 +417,6 @@ public class Console {
                             System.out.println("Error: Please enter a valid number.");
                             scanner.nextLine();
                         }
-                    } else {
-                        System.out.println("No bookings available to cancel.");
                     }
                     break;
                 case 'e':

@@ -1,6 +1,7 @@
 package soen342.users;
 // need to add stuff for minors
 
+import soen342.database.UserMapper;
 import soen342.location.Organization;
 import soen342.reservation.Offering;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Client extends User {
     @ManyToOne
     @JoinColumn(name = "guardian_id")
     private Client guardian; // used for the constructor for underage clients
-
+  
 
     @OneToMany(mappedBy = "guardian", cascade = CascadeType.ALL)
     private List<Client> underageClients = new ArrayList<>();
@@ -58,15 +59,10 @@ public class Client extends User {
         return isAdult();
     }
 
-    public void addUnderageClient(String underageClientEmail, int underageClientAge) {
-        if (!this.isAdult()) {
-            throw new IllegalStateException("guardians must be 18 years old or older");
-        }
-        if (underageClientAge >= 18) {
+    public void addUnderageClient(Client underageClient) {
+        if (underageClient.age >= 18) {
             throw new IllegalArgumentException("underage client must be under 18 years old");
         }
-        
-        Client underageClient = new Client(underageClientEmail, this.getOrganization(), underageClientAge, this);
         this.underageClients.add(underageClient);
     }
 
@@ -106,18 +102,18 @@ public class Client extends User {
 
     public void viewBookings() {
         if (bookings.isEmpty()) {
-            System.out.println("No current bookings.");
+            System.out.println("you have no current bookings.");
         } else {
-            System.out.println("Your current bookings:");
+            System.out.println("your current bookings:");
             for (int i = 0; i < bookings.size(); i++) {
                 Booking booking = bookings.get(i);
                 System.out.println((i + 1) + ". " + booking.toString());
             }
         }
+
         if (!underageClients.isEmpty()) {
-            System.out.println("\n underage client bookings:");
             for (Client underageClient : underageClients) {
-                System.out.println("\nBookings for " + underageClient.getEmail() + " (Age: " + underageClient.getAge() + "):");
+                System.out.println("\nbookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "):");
                 if (underageClient.getBookings().isEmpty()) {
                     System.out.println("no current bookings.");
                 } else {
