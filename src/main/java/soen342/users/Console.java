@@ -105,21 +105,7 @@ public class Console {
 
                     List<Space> spaces = this.user.getOrganization().getOwnedSpaces();
                     System.out.println("Available spaces:");
-                    for (int i = 0; i < spaces.size(); i++) {
-                        System.out.println(
-                                (i + 1) + ". " + spaces.get(i).getName() + ", "
-                                        + spaces.get(i).getLocation().getCity().getName());
-                    }
-
-                    System.out.println("Please enter the number of the space you want to select: ");
-                    int spaceIndex = Integer.parseInt(prompt()) - 1;
-
-                    if (spaceIndex < 0 || spaceIndex >= spaces.size()) {
-                        System.out.println("Invalid space selection. Please try again.");
-                        continue;
-                    }
-
-                    Space selectedSpace = spaces.get(spaceIndex);
+                    Space selectedSpace = selectFromItems(spaces);
 
                     System.out.println("Enter day of the week (e.g., Monday): ");
                     String dayInput = prompt().toUpperCase();
@@ -314,6 +300,25 @@ public class Console {
                 System.out.println("-----------------------------------");
             }
         }
+    }
+
+    private <T> void listItems(List<T> options) {
+        for (int i = 0; i < options.size(); i++) {
+            System.out.println((i + 1) + ". " + options.get(i).toString());
+        }
+    }
+
+    private <T> T selectFromItems(List<T> options) {
+        listItems(options);
+        System.out.println("Please enter the number of your selection:");
+        int selectedNumber = 0;
+        while (true) {
+            selectedNumber = Integer.parseInt(prompt());
+            if (selectedNumber >= 1 && selectedNumber <= options.size())
+                break;
+            System.out.println("Invalid selection. Please select a number between 1 and " + options.size() + ".");
+        }
+        return options.get(selectedNumber - 1);
     }
 
     private String prompt() {
