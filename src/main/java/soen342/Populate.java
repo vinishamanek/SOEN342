@@ -86,7 +86,7 @@ public class Populate {
 
         // 3. Create offerings using managed timeslot instances
         Offering o1 = swimmingLesson.addOffering(10, leGym, timeslot1);
-        Offering o2 = judoLesson.addOffering(20, ulavalGym, timeslot2);
+        Offering o2 = judoLesson.addOffering(1, ulavalGym, timeslot2);
 
         // 4. Persist the offerings
         offeringMapper.create(o1);
