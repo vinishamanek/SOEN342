@@ -45,14 +45,14 @@ public class Organization {
         List<Offering> offerings = new ArrayList<Offering>();
         for (Lesson lesson : Lessons) {
             for (Offering offering : lesson.getOfferings()) {
-                if (instructor.getAvailableCities().contains(offering.getLocation().getCity())) {
+                if (instructor.getAvailableCities().contains(offering.getLocation().getCity()) && !offering.hasInstructor()) {
                     offerings.add(offering);
                 }
             }
         }
         return offerings;
     }
-
+    
     public List<Offering> getAvailableClientOfferings(Client client) {
         List<Offering> availableOfferings = new ArrayList<Offering>();
         List<Booking> clientBookings = client.getBookings();
