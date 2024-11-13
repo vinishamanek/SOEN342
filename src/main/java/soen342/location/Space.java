@@ -3,8 +3,7 @@ package soen342.location;
 import java.util.List;
 
 import jakarta.persistence.*;
-import soen342.reservation.Schedule;
-import soen342.reservation.TimeSlot;
+import soen342.reservation.*;
 
 @Entity
 public class Space {
@@ -51,7 +50,7 @@ public class Space {
         this.location = location;
     }
 
-    public void addTimeSlot(TimeSlot timeSlot) {
+    public void addTimeSlot(TimeSlot timeSlot) throws TimeSlotOverlapException {
         schedule.addTimeSlot(timeSlot);
     }
 

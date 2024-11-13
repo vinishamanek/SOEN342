@@ -24,10 +24,10 @@ public class Schedule {
         return timeSlots;
     }
 
-    public void addTimeSlot(TimeSlot timeSlot) {
+    public void addTimeSlot(TimeSlot timeSlot) throws TimeSlotOverlapException {
         for (TimeSlot slot : timeSlots) {
             if (slot.overlapsWith(timeSlot)) {
-                throw new RuntimeException("Time slot overlaps with existing time slot.");
+                throw new TimeSlotOverlapException("Attempt to add an overlaping timeslot", slot);
             }
         }
         timeSlots.add(timeSlot);
