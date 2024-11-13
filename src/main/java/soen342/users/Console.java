@@ -353,6 +353,10 @@ public class Console {
                         availableOfferingsToDisplay = client.getAvailableClientOfferings();
                         listOfferings(availableOfferingsToDisplay);
                     } else if (bookingFor.equals("underage")) {
+                        if (client.getUnderageClients().isEmpty()) {
+                            System.out.println("No underage clients found.");
+                            break;
+                        }
                         List<Client> underageClients = client.getUnderageClients();
                         System.out.println("Please select an underage client from the list:");
                         Client underageClientSelected = selectFromItems(underageClients);
