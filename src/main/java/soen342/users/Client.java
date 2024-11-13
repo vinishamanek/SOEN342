@@ -16,7 +16,6 @@ import soen342.reservation.Booking;
 @Table(name = "clients")
 public class Client extends User {
 
-    // @Transient
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 

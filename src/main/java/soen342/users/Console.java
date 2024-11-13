@@ -363,7 +363,7 @@ public class Console {
 
                     if (bookingFor.equals("self")) {
                         availableOfferingsToDisplay = client.getAvailableClientOfferings();
-                        listOfferings(availableOfferingsToDisplay); 
+                        listOfferings(availableOfferingsToDisplay);
                     } else if (bookingFor.equals("underage")) {
                         List<Client> underageClients = client.getUnderageClients();
                         System.out.println("Please select an underage client from the list:");
@@ -448,7 +448,7 @@ public class Console {
                         if (client.getBookings() != null && !client.getBookings().isEmpty()) {
                             Booking deleteBooking = this.selectFromItems(client.getBookings());
                             client.cancelBooking(deleteBooking);
-                            this.bookingMapper.delete(deleteBooking);
+                            client = (Client) this.userMapper.update(client);
                         } else {
                             System.out.println("You have no bookings to cancel.");
                         }
@@ -464,7 +464,7 @@ public class Console {
                                 Booking deleteBookingUnderage = this
                                         .selectFromItems(underageClientToCancel.getBookings());
                                 underageClientToCancel.cancelBooking(deleteBookingUnderage);
-                                this.bookingMapper.delete(deleteBookingUnderage);
+                                this.userMapper.update(underageClientToCancel);
                             } else {
                                 System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
                             }
