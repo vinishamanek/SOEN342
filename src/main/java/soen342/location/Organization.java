@@ -1,9 +1,12 @@
 package soen342.location;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.*;
+import soen342.reservation.Booking;
 import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.users.Instructor;
@@ -50,23 +53,29 @@ public class Organization {
         return offerings;
     }
 
-    // todo: take the cient's details & existing bookings into account
     public List<Offering> getAvailableClientOfferings(Client client) {
-        List<Offering> offerings = new ArrayList<Offering>();
+        List<Offering> availableOfferings = new ArrayList<Offering>();
+        List<Booking> clientBookings = client.getBookings();
+
+        Set<Offering> bookedOfferings = new HashSet<>();
+        for (Booking booking : clientBookings) {
+            bookedOfferings.add(booking.getOffering());
+        }
+
         for (Lesson lesson : Lessons) {
             for (Offering offering : lesson.getOfferings()) {
-                if (offering.hasInstructor()) {
-                    offerings.add(offering);
+                if (offering.hasInstructor() && !bookedOfferings.contains(offering)) {
+                    availableOfferings.add(offering);
                 }
             }
         }
-        return offerings;
+        return availableOfferings;
     }
 
     public List<Offering> getPublicOfferings() {
         List<Offering> offerings = new ArrayList<Offering>();
         for (Lesson lesson : Lessons) {
-            for (Offering offering : lesson.getOfferings()) {
+        for (Offering offering : lesson.getOfferings()) {
                 if (offering.hasInstructor()) {
                     offerings.add(offering);
                 }

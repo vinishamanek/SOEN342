@@ -330,7 +330,7 @@ public class Console {
         List<Offering> availableOfferings;
         BookingMapper bookingMapper = new BookingMapper();
         Organization organization;
-
+        String bookingFor;
         while (true) {
             System.out.println("\nClient Menu:");
             System.out.println("a: Add underage client");
@@ -348,14 +348,32 @@ public class Console {
                     String underageEmail = prompt();
                     System.out.println("Enter age for underage client:");
                     int underageAge = Integer.parseInt(prompt());
-                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge,client);
+                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge,
+                            client);
                     client.addUnderageClient(underageClient);
                     client = (Client) userMapper.update(client);
-                    System.out.println("Underage client " + underageClient + " added successfully for client " + client);
+                    System.out
+                            .println("Underage client " + underageClient + " added successfully for client " + client);
                     break;
                 case 'o':
-                    availableOfferings = client.getAvailableClientOfferings();
-                    listOfferings(availableOfferings);
+                    System.out.println(
+                            "Do you want to view offerings for yourself or an underage client? (self/underage)");
+                    bookingFor = prompt().toLowerCase(); // User input for self or underage client
+
+                    List<Offering> availableOfferingsToDisplay = new ArrayList<>();
+
+                    if (bookingFor.equals("self")) {
+                        availableOfferingsToDisplay = client.getAvailableClientOfferings();
+                        listOfferings(availableOfferingsToDisplay); 
+                    } else if (bookingFor.equals("underage")) {
+                        List<Client> underageClients = client.getUnderageClients();
+                        System.out.println("Please select an underage client from the list:");
+                        Client underageClientSelected = selectFromItems(underageClients);
+                        availableOfferingsToDisplay = underageClientSelected.getAvailableClientOfferings();
+                        listOfferings(availableOfferingsToDisplay);
+                    } else {
+                        System.out.println("Invalid choice. Please select 'self' or 'underage'.");
+                    }
                     break;
 
                 case 'm':
@@ -369,7 +387,7 @@ public class Console {
 
                     System.out.println(
                             "Do you want to make a booking for yourself or an underage client? (self/underage)");
-                    String bookingFor = prompt().toLowerCase();
+                    bookingFor = prompt().toLowerCase();
                     Client targetClient = client;
                     if (bookingFor.equals("underage")) {
                         List<Client> underageClients = client.getUnderageClients();
@@ -430,7 +448,8 @@ public class Console {
                     client.viewBookings();
                     break;
                 case 'c':
-                    System.out.println("Do you want to cancel a booking for yourself or an underage client? (self/underage)");
+                    System.out.println(
+                            "Do you want to cancel a booking for yourself or an underage client? (self/underage)");
                     String cancelFor = prompt().trim().toLowerCase();
 
                     if (cancelFor.equals("self")) {
@@ -447,9 +466,11 @@ public class Console {
                         if (underageClients != null && !underageClients.isEmpty()) {
                             System.out.println("Select an underage client:");
                             Client underageClientToCancel = this.selectFromItems(underageClients);
-                            if (underageClientToCancel.getBookings() != null && !underageClientToCancel.getBookings().isEmpty()) {
+                            if (underageClientToCancel.getBookings() != null
+                                    && !underageClientToCancel.getBookings().isEmpty()) {
                                 System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
-                                Booking deleteBookingUnderage = this.selectFromItems(underageClientToCancel.getBookings());
+                                Booking deleteBookingUnderage = this
+                                        .selectFromItems(underageClientToCancel.getBookings());
                                 underageClientToCancel.cancelBooking(deleteBookingUnderage);
                                 this.bookingMapper.delete(deleteBookingUnderage);
                             } else {
@@ -514,8 +535,6 @@ public class Console {
         System.out.print(message);
         return scanner.nextLine().trim();
     }
-
-
 
     public void cleanup() {
         scanner.close();
