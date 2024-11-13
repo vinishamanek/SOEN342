@@ -432,38 +432,37 @@ public class Console {
                     client.viewBookings();
                     break;
                 case 'c':
-                    System.out.println(
-                            "Do you want to cancel a booking for yourself or an underage client? (self/underage)");
-                    String cancelFor = prompt().toLowerCase();
+                    System.out.println("Do you want to cancel a booking for yourself or an underage client? (self/underage)");
+                    String cancelFor = prompt().trim().toLowerCase();
 
-                    if (cancelFor.equals("self")) {
-                        if (!client.getBookings().isEmpty()) {
-                            Booking deleteBooking = this.selectFromItems(client.getBookings());
-                            client.cancelBooking(deleteBooking);
-                            this.bookingMapper.delete(deleteBooking);
-                        } else {
-                            System.out.println("You have no bookings to cancel.");
-                        }
-                    } else if (cancelFor.equals("underage")) {
-                        List<Client> underageClients = client.getUnderageClients();
+if (cancelFor.equals("self")) {
+    if (client.getBookings() != null && !client.getBookings().isEmpty()) {
+        Booking deleteBooking = this.selectFromItems(client.getBookings());
+        client.cancelBooking(deleteBooking);
+        this.bookingMapper.delete(deleteBooking);
+    } else {
+        System.out.println("You have no bookings to cancel.");
+    }
+} else if (cancelFor.equals("underage")) {
+    List<Client> underageClients = client.getUnderageClients();
 
-                        if (!underageClients.isEmpty()) {
-                            System.out.println("Select an underage client:");
-                            Client underageClientToCancel = this.selectFromItems(underageClients);
-                            if (!underageClientToCancel.getBookings().isEmpty()) {
-                                System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
-                                Booking deleteBookingUnderage = this
-                                        .selectFromItems(underageClientToCancel.getBookings());
-                                this.bookingMapper.delete(deleteBookingUnderage);
-                            } else {
-                                System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
-                            }
-                        } else {
-                            System.out.println("No underage clients found. Please add one first.");
-                        }
-                    } else {
-                        System.out.println("Invalid input. Please enter 'self' or 'underage'.");
-                    }
+    if (underageClients != null && !underageClients.isEmpty()) {
+        System.out.println("Select an underage client:");
+        Client underageClientToCancel = this.selectFromItems(underageClients);
+        if (underageClientToCancel.getBookings() != null && !underageClientToCancel.getBookings().isEmpty()) {
+            System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
+            Booking deleteBookingUnderage = this.selectFromItems(underageClientToCancel.getBookings());
+            this.bookingMapper.delete(deleteBookingUnderage);
+        } else {
+            System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
+        }
+    } else {
+        System.out.println("No underage clients found. Please add one first.");
+    }
+} else {
+    System.out.println("Invalid input. Please enter 'self' or 'underage'.");
+}
+
                     break;
                 case 'e':
                     System.out.println("Logging out...");
