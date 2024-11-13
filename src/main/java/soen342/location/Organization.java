@@ -45,26 +45,32 @@ public class Organization {
         List<Offering> offerings = new ArrayList<Offering>();
         for (Lesson lesson : Lessons) {
             for (Offering offering : lesson.getOfferings()) {
-                if (instructor.getAvailableCities().contains(offering.getLocation().getCity()) && !offering.hasInstructor()) {
+                if (instructor.getAvailableCities().contains(offering.getLocation().getCity())
+                        && !offering.hasInstructor()) {
                     offerings.add(offering);
                 }
             }
         }
         return offerings;
     }
-    
-    public List<Offering> getAvailableClientOfferings(Client client) {
-        List<Offering> availableOfferings = new ArrayList<Offering>();
-        List<Booking> clientBookings = client.getBookings();
 
+    public List<Offering> getAvailableClientOfferings(Client client) {
+        List<Offering> availableOfferings = new ArrayList<>();
         Set<Offering> bookedOfferings = new HashSet<>();
-        for (Booking booking : clientBookings) {
-            bookedOfferings.add(booking.getOffering());
+
+        if (client != null) {
+            List<Booking> clientBookings = client.getBookings();
+            for (Booking booking : clientBookings) {
+                bookedOfferings.add(booking.getOffering());
+            }
         }
 
         for (Lesson lesson : Lessons) {
             for (Offering offering : lesson.getOfferings()) {
-                if (offering.hasInstructor() && !bookedOfferings.contains(offering)) {
+                int bookingCount = offering.getBookings().size();
+                if (offering.getCapacity() > bookingCount && !bookedOfferings.contains(offering) && offering.hasInstructor()) {
+                    availableOfferings.add(offering);
+                } else if (client == null && offering.hasInstructor() && !bookedOfferings.contains(offering)) {
                     availableOfferings.add(offering);
                 }
             }
@@ -72,18 +78,18 @@ public class Organization {
         return availableOfferings;
     }
 
-    public List<Offering> getPublicOfferings() {
-        List<Offering> offerings = new ArrayList<Offering>();
-        for (Lesson lesson : Lessons) {
-        for (Offering offering : lesson.getOfferings()) {
-                if (offering.hasInstructor()) {
-                    offerings.add(offering);
-                }
-            }
-        }
-        return offerings;
+    // public List<Offering> getPublicOfferings() {
+    // List<Offering> offerings = new ArrayList<Offering>();
+    // for (Lesson lesson : Lessons) {
+    // for (Offering offering : lesson.getOfferings()) {
+    // if (offering.hasInstructor()) {
+    // offerings.add(offering);
+    // }
+    // }
+    // }
+    // return offerings;
 
-    }
+    // }
 
     public void addLesson(Lesson lesson) {
         Lessons.add(lesson);

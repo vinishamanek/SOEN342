@@ -1,5 +1,8 @@
 package soen342.reservation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import soen342.location.Location;
 import soen342.location.Space;
@@ -28,6 +31,9 @@ public class Offering {
 
     @ManyToOne(optional = true)
     private Instructor instructor;
+
+    @OneToMany(mappedBy = "offering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
 
     public Offering() {
     }
@@ -84,6 +90,10 @@ public class Offering {
 
     public boolean hasInstructor() {
         return instructor != null;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
 }

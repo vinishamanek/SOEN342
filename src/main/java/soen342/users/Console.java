@@ -69,7 +69,7 @@ public class Console {
             switch (operation) {
                 case 'v':
                     Organization organization = this.organizationMapper.getDefault();
-                    List<Offering> offerings = organization.getPublicOfferings();
+                    List<Offering> offerings = organization.getAvailableClientOfferings(null);
                     listOfferings(offerings);
                     break;
                 case 'l':
@@ -329,7 +329,6 @@ public class Console {
         Client client = (Client) this.user;
         List<Offering> availableOfferings;
         BookingMapper bookingMapper = new BookingMapper();
-        Organization organization;
         String bookingFor;
         while (true) {
             System.out.println("\nClient Menu:");
