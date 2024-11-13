@@ -423,13 +423,8 @@ public class Console {
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
                             Offering selectedOffering = availableOfferings.get(offeringIndex);
-
-                            Booking booking = new Booking(client, selectedOffering);
-                            bookingMapper.create(booking);
-
                             client.createBooking(selectedOffering);
                             client = (Client) userMapper.update(client);
-                            bookingMapper.update(booking);
                             System.out.println("Booking created successfully!");
                         } else {
                             System.out.println("Error: Invalid offering number.");
