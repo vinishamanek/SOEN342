@@ -377,14 +377,6 @@ public class Console {
                     break;
 
                 case 'm':
-                    availableOfferings = client.getAvailableClientOfferings();
-                    listOfferings(availableOfferings);
-
-                    if (availableOfferings.isEmpty()) {
-                        System.out.println("No available offerings to book.");
-                        break;
-                    }
-
                     System.out.println(
                             "Do you want to make a booking for yourself or an underage client? (self/underage)");
                     bookingFor = prompt().toLowerCase();
@@ -395,6 +387,7 @@ public class Console {
                             System.out.println("No underage clients found.");
                             break;
                         }
+
                         Client underageClientSelected = selectFromItems(underageClients);
                         targetClient = underageClientSelected;
                         availableOfferings = targetClient.getAvailableClientOfferings();
