@@ -26,7 +26,7 @@ public class Client extends User {
     @JoinColumn(name = "guardian_id")
     private Client guardian; // used for the constructor for underage clients
 
-    @OneToMany(mappedBy = "guardian", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "guardian", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Client> underageClients = new ArrayList<>();
 
     protected Client() {
