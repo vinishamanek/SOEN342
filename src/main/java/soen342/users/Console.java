@@ -300,7 +300,6 @@ public class Console {
 
             switch (operation) {
                 case 'v':
-                    System.out.println("\nAvailable Offerings:");
                     List<Offering> availableOfferings = instructor.getAvailableInstructorOfferings();
                     listOfferings(availableOfferings);
                     break;
@@ -355,7 +354,6 @@ public class Console {
                     System.out.println("Underage client " + underageClient + " added successfully for client " + client);
                     break;
                 case 'o':
-                    System.out.println("\nAvailable Offerings:");
                     availableOfferings = client.getAvailableClientOfferings();
                     listOfferings(availableOfferings);
                     break;
@@ -435,33 +433,34 @@ public class Console {
                     System.out.println("Do you want to cancel a booking for yourself or an underage client? (self/underage)");
                     String cancelFor = prompt().trim().toLowerCase();
 
-if (cancelFor.equals("self")) {
-    if (client.getBookings() != null && !client.getBookings().isEmpty()) {
-        Booking deleteBooking = this.selectFromItems(client.getBookings());
-        client.cancelBooking(deleteBooking);
-        this.bookingMapper.delete(deleteBooking);
-    } else {
-        System.out.println("You have no bookings to cancel.");
-    }
-} else if (cancelFor.equals("underage")) {
-    List<Client> underageClients = client.getUnderageClients();
+                    if (cancelFor.equals("self")) {
+                        if (client.getBookings() != null && !client.getBookings().isEmpty()) {
+                            Booking deleteBooking = this.selectFromItems(client.getBookings());
+                            client.cancelBooking(deleteBooking);
+                            this.bookingMapper.delete(deleteBooking);
+                        } else {
+                            System.out.println("You have no bookings to cancel.");
+                        }
+                    } else if (cancelFor.equals("underage")) {
+                        List<Client> underageClients = client.getUnderageClients();
 
-    if (underageClients != null && !underageClients.isEmpty()) {
-        System.out.println("Select an underage client:");
-        Client underageClientToCancel = this.selectFromItems(underageClients);
-        if (underageClientToCancel.getBookings() != null && !underageClientToCancel.getBookings().isEmpty()) {
-            System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
-            Booking deleteBookingUnderage = this.selectFromItems(underageClientToCancel.getBookings());
-            this.bookingMapper.delete(deleteBookingUnderage);
-        } else {
-            System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
-        }
-    } else {
-        System.out.println("No underage clients found. Please add one first.");
-    }
-} else {
-    System.out.println("Invalid input. Please enter 'self' or 'underage'.");
-}
+                        if (underageClients != null && !underageClients.isEmpty()) {
+                            System.out.println("Select an underage client:");
+                            Client underageClientToCancel = this.selectFromItems(underageClients);
+                            if (underageClientToCancel.getBookings() != null && !underageClientToCancel.getBookings().isEmpty()) {
+                                System.out.println("Bookings for " + underageClientToCancel.getEmail() + ":");
+                                Booking deleteBookingUnderage = this.selectFromItems(underageClientToCancel.getBookings());
+                                underageClientToCancel.cancelBooking(deleteBookingUnderage);
+                                this.bookingMapper.delete(deleteBookingUnderage);
+                            } else {
+                                System.out.println(underageClientToCancel.getEmail() + " has no bookings to cancel.");
+                            }
+                        } else {
+                            System.out.println("No underage clients found. Please add one first.");
+                        }
+                    } else {
+                        System.out.println("Invalid input. Please enter 'self' or 'underage'.");
+                    }
 
                     break;
                 case 'e':
@@ -478,7 +477,7 @@ if (cancelFor.equals("self")) {
         if (offerings.isEmpty()) {
             System.out.println("No offerings available.");
         } else {
-            System.out.println("Available Offerings:");
+            System.out.println("\nAvailable Offerings:");
             int number = 1;
             for (Offering offering : offerings) {
                 System.out.println("Offering Number: " + number++);
@@ -513,8 +512,10 @@ if (cancelFor.equals("self")) {
 
     private String prompt(String message) {
         System.out.print(message);
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
+
+
 
     public void cleanup() {
         scanner.close();

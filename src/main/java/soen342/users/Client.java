@@ -116,9 +116,9 @@ public class Client extends User {
         if (!underageClients.isEmpty()) {
             for (Client underageClient : underageClients) {
                 System.out.println(
-                        "\nBookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "):");
+                        "\nBookings for " + underageClient.getEmail() + " (age: " + underageClient.getAge() + "): ");
                 if (underageClient.getBookings().isEmpty()) {
-                    System.out.println("No current bookings.");
+                    System.out.print("No current bookings.");
                 } else {
                     for (int i = 0; i < underageClient.getBookings().size(); i++) {
                         Booking booking = underageClient.getBookings().get(i);
