@@ -70,8 +70,13 @@ public class Populate {
         // 1. Create & persist TimeSlots
         TimeSlot timeslot1 = new TimeSlot(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 30));
         TimeSlot timeslot2 = new TimeSlot(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(12, 30));
-        leGym.addTimeSlot(timeslot1);
-        ulavalGym.addTimeSlot(timeslot2);
+        try {
+            leGym.addTimeSlot(timeslot1);
+            ulavalGym.addTimeSlot(timeslot2);
+        } catch (TimeSlotOverlapException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         locationMapper.update(EVBuilding);
         locationMapper.update(ULaval);
 
@@ -96,7 +101,7 @@ public class Populate {
         userMapper.create(new Instructor("jim@concordia.ca", "password", organization,
                 Arrays.asList(montreal, quebecCity), "Judo"));
         userMapper.create(new Client("michael@concordia.ca", "password", organization, 50));
-        
+
         Client angela = new Client("angela@concordia.ca", "password", organization, 40);
         userMapper.create(angela);
 

@@ -19,6 +19,7 @@ import soen342.reservation.Booking;
 import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.reservation.TimeSlot;
+import soen342.reservation.TimeSlotOverlapException;
 
 public class Console {
 
@@ -198,23 +199,10 @@ public class Console {
                     System.out.println("Available spaces:");
                     Space selectedSpace = selectFromItems(spaces);
 
-                    System.out.println("Enter day of the week (e.g., Monday): ");
-                    String dayInput = prompt().toUpperCase();
-                    DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayInput);
-
-                    System.out.println("Enter start time (e.g., 9:00 AM): ");
-                    String startTimeInput = prompt();
-                    LocalTime startTime = parseTime(startTimeInput);
-
-                    System.out.println("Enter end time (e.g., 11:00 AM): ");
-                    String endTimeInput = prompt();
-                    LocalTime endTime = parseTime(endTimeInput);
-
-                    TimeSlot timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
-                    selectedSpace.addTimeSlot(timeslot);
+                    TimeSlot timeSlot = promptTimeSlot(selectedSpace);
                     this.locationMapper.update(selectedSpace.getLocation());
-                    timeslot = selectedSpace.getLastTimeSlot();
-                    Offering offering = selectedLesson.addOffering(capacity, selectedSpace, timeslot);
+                    timeSlot = selectedSpace.getLastTimeSlot();
+                    Offering offering = selectedLesson.addOffering(capacity, selectedSpace, timeSlot);
                     this.offeringMapper.create(offering);
 
                     System.out.println("Offering created successfully:");
@@ -491,6 +479,32 @@ public class Console {
                 System.out.println("Offering Number: " + number++);
                 System.out.println(offering);
                 System.out.println("-----------------------------------");
+            }
+        }
+    }
+
+    public TimeSlot promptTimeSlot(Space space) {
+        TimeSlot timeslot;
+        while (true) {
+            try {
+                System.out.println("Enter day of the week (e.g., Monday): ");
+                String dayInput = prompt().toUpperCase();
+                DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayInput);
+
+                System.out.println("Enter start time (e.g., 9:00 AM): ");
+                String startTimeInput = prompt();
+                LocalTime startTime = parseTime(startTimeInput);
+
+                System.out.println("Enter end time (e.g., 11:00 AM): ");
+                String endTimeInput = prompt();
+                LocalTime endTime = parseTime(endTimeInput);
+
+                timeslot = new TimeSlot(dayOfWeek, startTime, endTime);
+                space.addTimeSlot(timeslot);
+                return timeslot;
+            } catch (TimeSlotOverlapException e) {
+                System.out.println("This timeslot overlaps with another: " + e.getOverlappingTimeSlot());
+                continue;
             }
         }
     }

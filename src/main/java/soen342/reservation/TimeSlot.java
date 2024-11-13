@@ -46,7 +46,14 @@ public class TimeSlot {
         return endTime;
     }
 
+    // No timeslot can span multiple days
     public boolean overlapsWith(TimeSlot other) {
-        return this.startTime.isBefore(other.getEndTime()) && this.endTime.isAfter(other.getStartTime());
+        return this.dayOfWeek == other.getDayOfWeek() &&
+                this.startTime.isBefore(other.getEndTime()) &&
+                this.endTime.isAfter(other.getStartTime());
+    }
+
+    public String toString() {
+        return dayOfWeek + " " + startTime + " - " + endTime;
     }
 }
