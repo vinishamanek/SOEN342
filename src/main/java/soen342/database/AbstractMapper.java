@@ -29,6 +29,8 @@ public class AbstractMapper<T> {
         try {
             transaction.begin();
             T t = entityManager.merge(entity);
+            entityManager.flush();
+            entityManager.refresh(t);
             transaction.commit();
             return t;
         } catch (Exception e) {
