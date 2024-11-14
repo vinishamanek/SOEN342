@@ -24,11 +24,11 @@ public class Organization {
 
     @OneToMany
     @JoinTable(name = "organization_owned_spaces", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "owned_space_id"))
-    public List<Space> ownedSpaces = new ArrayList<Space>();
+    private List<Space> ownedSpaces = new ArrayList<Space>();
 
     @OneToMany
     @JoinTable(name = "organization_rented_spaces", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "rented_space_id"))
-    public List<Space> rentedSpaces = new ArrayList<Space>();
+    private List<Space> rentedSpaces = new ArrayList<Space>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
@@ -68,7 +68,8 @@ public class Organization {
         for (Lesson lesson : Lessons) {
             for (Offering offering : lesson.getOfferings()) {
                 int bookingCount = offering.getBookings().size();
-                if (offering.getCapacity() > bookingCount && !bookedOfferings.contains(offering) && offering.hasInstructor()) {
+                if (offering.getCapacity() > bookingCount && !bookedOfferings.contains(offering)
+                        && offering.hasInstructor()) {
                     availableOfferings.add(offering);
                 } else if (client == null && offering.hasInstructor() && !bookedOfferings.contains(offering)) {
                     availableOfferings.add(offering);
@@ -92,6 +93,21 @@ public class Organization {
 
     public List<Space> getOwnedSpaces() {
         return ownedSpaces;
+    }
+
+    public void addRentedSpace(Space space) {
+        rentedSpaces.add(space);
+    }
+
+    public List<Space> getRentedSpaces() {
+        return rentedSpaces;
+    }
+
+    public List<Space> getAllSpaces() {
+        List<Space> allSpaces = new ArrayList<Space>();
+        allSpaces.addAll(ownedSpaces);
+        allSpaces.addAll(rentedSpaces);
+        return allSpaces;
     }
 
     public Lesson getLastLesson() {

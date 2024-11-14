@@ -124,7 +124,7 @@ public class Console {
             String specialization = prompt();
 
             Set<City> allCitiesSet = new HashSet<>();
-            for (Space space : organization.getOwnedSpaces()) {
+            for (Space space : organization.getAllSpaces()) {
                 Location location = space.getLocation();
                 if (location != null && location.getCity() != null) {
                     allCitiesSet.add(location.getCity());
@@ -154,7 +154,8 @@ public class Console {
                 }
             }
 
-            Instructor newInstructor = new Instructor(email, password, phoneNumber, organization, selectedCities, specialization);
+            Instructor newInstructor = new Instructor(email, password, phoneNumber, organization, selectedCities,
+                    specialization);
             userMapper.create(newInstructor);
             System.out.println("Instructor account created successfully " + newInstructor.getEmail() + "!");
         }
@@ -199,7 +200,7 @@ public class Console {
                     System.out.println("Enter capacity: ");
                     int capacity = Integer.parseInt(prompt());
 
-                    List<Space> spaces = this.user.getOrganization().getOwnedSpaces();
+                    List<Space> spaces = this.user.getOrganization().getAllSpaces();
                     System.out.println("Available spaces:");
                     Space selectedSpace = selectFromItems(spaces);
 
