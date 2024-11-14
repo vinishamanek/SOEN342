@@ -406,10 +406,8 @@ public class Console {
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
                             Offering selectedOffering = availableOfferings.get(offeringIndex);
-                            Booking underageBooking = new Booking(targetClient, selectedOffering);
-                            bookingMapper.create(underageBooking);
-                            System.out.println("Booking created successfully for " + targetClient.getEmail() + "!");
-                            targetClient.addBooking(underageBooking);
+                            createBooking(targetClient, selectedOffering);
+                            System.out.println("Booking created successfully for " + client.getEmail() + "!");
                         } else {
                             System.out.println("Error: Invalid offering number.");
                         }
@@ -427,8 +425,7 @@ public class Console {
 
                         if (offeringIndex >= 0 && offeringIndex < availableOfferings.size()) {
                             Offering selectedOffering = availableOfferings.get(offeringIndex);
-                            client.createBooking(selectedOffering);
-                            client = (Client) userMapper.update(client);
+                            createBooking(client, selectedOffering);
                             System.out.println("Booking created successfully!");
                         } else {
                             System.out.println("Error: Invalid offering number.");
@@ -487,6 +484,12 @@ public class Console {
 
     private List<Offering> viewAvailableOfferings(Client client) {
         return client.getAvailableClientOfferings();
+    }
+
+    private void createBooking(Client client, Offering offering) {
+        Booking underageBooking = new Booking(client, offering);
+        bookingMapper.create(underageBooking);
+        client.addBooking(underageBooking);
     }
 
     private void listOfferings(List<Offering> offerings) {
