@@ -33,7 +33,7 @@ public abstract class User {
         return this.email;
     }
 
-    protected Organization getOrganization() {
+    public Organization getOrganization() {
         return this.organization;
     }
 

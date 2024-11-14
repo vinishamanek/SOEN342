@@ -2,7 +2,6 @@
 package soen342;
 
 import soen342.database.JPAUtil;
-import soen342.users.Console;
 
 public class Driver {
     public static void main(String[] args) {
