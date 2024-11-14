@@ -331,12 +331,7 @@ public class Console {
 
             switch (operation) {
                 case 'a':
-                    System.out.print("\nEnter email for underage client: ");
-                    String underageEmail = prompt();
-                    System.out.println("Enter age for underage client:");
-                    int underageAge = Integer.parseInt(prompt());
-                    Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge,
-                            client);
+                    Client underageClient = promptUnderageClient(client);
                     client.addUnderageClient(underageClient);
                     client = (Client) userMapper.update(client);
                     System.out
@@ -485,6 +480,22 @@ public class Console {
                 System.out.println("-----------------------------------");
             }
         }
+    }
+
+    public Client promptUnderageClient(Client client) {
+        System.out.print("\nEnter email for underage client: ");
+        String underageEmail = prompt();
+        System.out.println("Enter age for underage client:");
+        int underageAge = 0;
+        while (true) {
+            underageAge = Integer.parseInt(prompt());
+            if (underageAge < 18) {
+                break;
+            }
+            System.out.println("Underage client must be under 18 years old. Try again:");
+        }
+        Client underageClient = new Client(underageEmail, this.organizationMapper.getDefault(), underageAge, client);
+        return underageClient;
     }
 
     public TimeSlot promptTimeSlot(Space space) {
