@@ -114,4 +114,8 @@ public class Organization {
         return Lessons.get(Lessons.size() - 1);
     }
 
+    public String toString() {
+        return name;
+    }
+
 }

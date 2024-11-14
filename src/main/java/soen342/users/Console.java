@@ -78,7 +78,7 @@ public class Console {
                     run();
                     break;
                 case 's':
-                    signup();
+                    PromptSignup();
                     break;
                 case 'e':
                     System.out.println("Exiting...");
@@ -90,7 +90,7 @@ public class Console {
         }
     }
 
-    private void signup() {
+    private void PromptSignup() {
         System.out.println("\nSign Up Process");
         System.out.println("Select your role:");
         System.out.println("1. Client");
@@ -98,7 +98,9 @@ public class Console {
         System.out.print("Enter your choice (1 or 2): ");
 
         int roleChoice = promptInt();
-        Organization organization = this.organizationMapper.getDefault();
+
+        System.out.println("Select your organization:");
+        Organization organization = selectFromItems(this.organizationMapper.findAll());
 
         System.out.println("Enter email: ");
         String email = prompt();
