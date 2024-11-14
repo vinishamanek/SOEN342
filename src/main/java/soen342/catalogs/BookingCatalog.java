@@ -7,9 +7,17 @@ import soen342.reservation.Booking;
 
 public class BookingCatalog {
     private List<Booking> bookings;
+    private static BookingCatalog instance;
 
-    public BookingCatalog(List<Booking> bookings) {
+    private BookingCatalog(List<Booking> bookings) {
         this.bookings = bookings != null ? bookings : new ArrayList<>();
+    }
+
+    public static BookingCatalog getInstance(List<Booking> bookings) {
+        if (instance == null) {
+            instance = new BookingCatalog(bookings);
+        }
+        return instance;
     }
 
     public void setBookings(List<Booking> bookings) {
