@@ -167,7 +167,6 @@ public class Console {
             String email = prompt();
             System.out.print("Enter password: ");
             String password = prompt();
-            System.out.println("Invalid credentials. Please try again.");
             if (login(email, password)) {
                 return;
             }

@@ -23,20 +23,15 @@ public class UserMapper extends AbstractMapper<User> {
     }
 
     public User findByCredentials(String email, String password) {
-        // @todo popupate userCatalog using findALl() method
-        // @then search through the catalog to find the user with the email (implement
-        // findByEmail in catalog? or not even bother with that?)
-        // @then check if the password matches
-        // @note this is awfully inefficient
-        try {
-            TypedQuery<User> query = entityManager.createQuery(
-                    "SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class);
-            query.setParameter("email", email);
-            query.setParameter("password", password);
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
+        List<User> users = findAll();
+        userCatalog = new UserCatalog(users);
+
+        User user = userCatalog.findByEmail(email);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
         }
+        System.out.println("Invalid credentials. Please try again.");
+        return null;
     }
 
     public List<User> findAll() {

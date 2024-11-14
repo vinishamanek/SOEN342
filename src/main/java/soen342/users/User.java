@@ -41,4 +41,8 @@ public abstract class User {
         return this.email + " (" + this.getClass().getSimpleName() + ")";
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
 }
