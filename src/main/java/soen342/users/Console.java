@@ -97,7 +97,7 @@ public class Console {
         System.out.println("2. Instructor");
         System.out.print("Enter your choice (1 or 2): ");
 
-        int roleChoice = Integer.parseInt(prompt());
+        int roleChoice = promptInt();
         Organization organization = this.organizationMapper.getDefault();
 
         System.out.println("Enter email: ");
@@ -108,7 +108,7 @@ public class Console {
 
         if (roleChoice == 1) {
             System.out.println("Enter age: ");
-            int age = Integer.parseInt(prompt());
+            int age = promptInt();
 
             Client newClient = new Client(email, password, organization, age);
 
@@ -540,12 +540,22 @@ public class Console {
         System.out.println("Please enter the number of your selection:");
         int selectedNumber = 0;
         while (true) {
-            selectedNumber = Integer.parseInt(prompt());
+            selectedNumber = promptInt();
             if (selectedNumber >= 1 && selectedNumber <= options.size())
                 break;
             System.out.println("Invalid selection. Please select a number between 1 and " + options.size() + ".");
         }
         return options.get(selectedNumber - 1);
+    }
+
+    private int promptInt() {
+        while (true) {
+            try {
+                return Integer.parseInt(prompt().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+            }
+        }
     }
 
     private String prompt() {
