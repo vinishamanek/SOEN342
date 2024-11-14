@@ -30,7 +30,6 @@ public class UserMapper extends AbstractMapper<User> {
         if (user != null && user.getPassword().equals(password)) {
             return user;
         }
-        System.out.println("Invalid credentials. Please try again.");
         return null;
     }
 
