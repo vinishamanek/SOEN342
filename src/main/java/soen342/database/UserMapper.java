@@ -11,6 +11,11 @@ public class UserMapper extends AbstractMapper<User> {
 
     private UserCatalog userCatalog;
 
+    public UserMapper() {
+        super();
+        userCatalog = UserCatalog.getInstance();
+    }
+
     public User findByEmail(String email) {
         try {
             TypedQuery<User> query = entityManager.createQuery(
@@ -24,13 +29,8 @@ public class UserMapper extends AbstractMapper<User> {
 
     public User findByCredentials(String email, String password) {
         List<User> users = findAll();
-        userCatalog = new UserCatalog(users);
-
-        User user = userCatalog.findByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
+        userCatalog.setUsers(users);
+        return userCatalog.findByCredentials(email, password);
     }
 
     public List<User> findAll() {
