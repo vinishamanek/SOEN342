@@ -1,4 +1,4 @@
-package soen342.users;
+package soen342;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -20,6 +20,10 @@ import soen342.reservation.Lesson;
 import soen342.reservation.Offering;
 import soen342.reservation.TimeSlot;
 import soen342.reservation.TimeSlotOverlapException;
+import soen342.users.Admin;
+import soen342.users.Client;
+import soen342.users.Instructor;
+import soen342.users.User;
 
 public class Console {
 
