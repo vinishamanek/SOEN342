@@ -94,11 +94,11 @@ public class Populate {
 
         // END CREATE OFFERING PROCEDURE
 
-        Instructor i = new Instructor("pam@concordia.ca", "password", organization, Arrays.asList(montreal),
+        Instructor i = new Instructor("pam@concordia.ca", "password", "514-123-4567", organization, Arrays.asList(montreal),
                 "Swimming");
         userMapper.create(Admin.getInstance("dwight@concordia.ca", "password", organization));
         userMapper.create(i);
-        userMapper.create(new Instructor("jim@concordia.ca", "password", organization,
+        userMapper.create(new Instructor("jim@concordia.ca", "password", "418-123-1234", organization,
                 Arrays.asList(montreal, quebecCity), "Judo"));
         userMapper.create(new Client("michael@concordia.ca", "password", organization, 50));
 

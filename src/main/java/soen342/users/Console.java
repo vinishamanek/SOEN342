@@ -116,6 +116,10 @@ public class Console {
             System.out.println("Client account created successfully for " + newClient.getEmail() + "!");
 
         } else if (roleChoice == 2) {
+
+            System.out.println("Enter phone number: (e.g., 514-123-1234)");
+            String phoneNumber = prompt();
+
             System.out.println("Enter specialization: ");
             String specialization = prompt();
 
@@ -150,7 +154,7 @@ public class Console {
                 }
             }
 
-            Instructor newInstructor = new Instructor(email, password, organization, selectedCities, specialization);
+            Instructor newInstructor = new Instructor(email, password, phoneNumber, organization, selectedCities, specialization);
             userMapper.create(newInstructor);
             System.out.println("Instructor account created successfully " + newInstructor.getEmail() + "!");
         }
