@@ -1,8 +1,5 @@
 package soen342.users;
-// need to add stuff for minors
 
-import soen342.database.BookingMapper;
-import soen342.database.UserMapper;
 import soen342.location.Organization;
 import soen342.reservation.Offering;
 import java.util.List;
