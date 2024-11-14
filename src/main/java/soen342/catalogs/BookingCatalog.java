@@ -23,4 +23,8 @@ public class BookingCatalog {
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
     }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
 }

@@ -2,6 +2,7 @@ package soen342.catalogs;
 
 import java.util.List;
 import soen342.location.City;
+import soen342.location.Location;
 
 public class CityCatalog {
     private static CityCatalog instance;
@@ -20,5 +21,9 @@ public class CityCatalog {
 
     public void setCities(List<City> cities) {
         this.cities = cities;
+    }
+
+    public List<City> getCities() {
+        return cities;
     }
 }

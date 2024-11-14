@@ -21,4 +21,8 @@ public class ProvinceCatalog {
     public void setProvinces(List<Province> provinces) {
         this.provinces = provinces;
     }
+
+    public List<Province> getProvinces() {
+        return provinces;
+    }
 }
