@@ -359,11 +359,8 @@ public class Console {
                             "Do you want to view offerings for yourself or an underage client? (self/underage)");
                     bookingFor = prompt().toLowerCase(); // User input for self or underage client
 
-                    List<Offering> availableOfferingsToDisplay = new ArrayList<>();
-
                     if (bookingFor.equals("self")) {
-                        availableOfferingsToDisplay = client.getAvailableClientOfferings();
-                        listOfferings(availableOfferingsToDisplay);
+                        listOfferings(viewAvailableOfferings(client));
                     } else if (bookingFor.equals("underage")) {
                         if (client.getUnderageClients().isEmpty()) {
                             System.out.println("No underage clients found.");
@@ -372,8 +369,7 @@ public class Console {
                         List<Client> underageClients = client.getUnderageClients();
                         System.out.println("Please select an underage client from the list:");
                         Client underageClientSelected = selectFromItems(underageClients);
-                        availableOfferingsToDisplay = underageClientSelected.getAvailableClientOfferings();
-                        listOfferings(availableOfferingsToDisplay);
+                        listOfferings(viewAvailableOfferings(underageClientSelected));
                     } else {
                         System.out.println("Invalid choice. Please select 'self' or 'underage'.");
                     }
@@ -393,7 +389,7 @@ public class Console {
 
                         Client underageClientSelected = selectFromItems(underageClients);
                         targetClient = underageClientSelected;
-                        availableOfferings = targetClient.getAvailableClientOfferings();
+                        availableOfferings = viewAvailableOfferings(targetClient);
                         listOfferings(availableOfferings);
 
                         if (availableOfferings.isEmpty()) {
@@ -414,7 +410,7 @@ public class Console {
                             System.out.println("Error: Invalid offering number.");
                         }
                     } else {
-                        availableOfferings = client.getAvailableClientOfferings();
+                        availableOfferings = viewAvailableOfferings(client);
                         listOfferings(availableOfferings);
 
                         if (availableOfferings.isEmpty()) {
@@ -483,6 +479,10 @@ public class Console {
                     break;
             }
         }
+    }
+
+    private List<Offering> viewAvailableOfferings(Client client) {
+        return client.getAvailableClientOfferings();
     }
 
     private void listOfferings(List<Offering> offerings) {
