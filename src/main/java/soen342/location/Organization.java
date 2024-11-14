@@ -78,19 +78,6 @@ public class Organization {
         return availableOfferings;
     }
 
-    // public List<Offering> getPublicOfferings() {
-    // List<Offering> offerings = new ArrayList<Offering>();
-    // for (Lesson lesson : Lessons) {
-    // for (Offering offering : lesson.getOfferings()) {
-    // if (offering.hasInstructor()) {
-    // offerings.add(offering);
-    // }
-    // }
-    // }
-    // return offerings;
-
-    // }
-
     public void addLesson(Lesson lesson) {
         Lessons.add(lesson);
     }

@@ -26,13 +26,17 @@ public class Instructor extends User {
     @OneToMany(mappedBy = "instructor")
     private List<Offering> offerings;
 
+    @Column(nullable = false)
+    private String phoneNumber;
+
     protected Instructor() {
         super();
     }
 
-    public Instructor(String email, String password, Organization organization, List<City> availableCities,
+    public Instructor(String email, String password, String phoneNumber, Organization organization, List<City> availableCities,
             String specialization) {
         super(email, password, organization);
+        this.phoneNumber = phoneNumber;
         this.availableCities = availableCities;
         this.specialization = specialization;
         this.offerings = new ArrayList<>();
@@ -62,6 +66,14 @@ public class Instructor extends User {
         }
         offering.assignInstructor(this);
         offerings.add(offering);
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }
