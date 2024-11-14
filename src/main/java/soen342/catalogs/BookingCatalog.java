@@ -9,13 +9,13 @@ public class BookingCatalog {
     private List<Booking> bookings;
     private static BookingCatalog instance;
 
-    private BookingCatalog(List<Booking> bookings) {
-        this.bookings = bookings != null ? bookings : new ArrayList<>();
+    private BookingCatalog() {
+        this.bookings = new ArrayList<>();
     }
 
-    public static BookingCatalog getInstance(List<Booking> bookings) {
+    public static BookingCatalog getInstance() {
         if (instance == null) {
-            instance = new BookingCatalog(bookings);
+            instance = new BookingCatalog();
         }
         return instance;
     }
