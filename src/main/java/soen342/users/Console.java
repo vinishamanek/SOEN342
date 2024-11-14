@@ -216,9 +216,7 @@ public class Console {
                     TimeSlot timeSlot = promptTimeSlot(selectedSpace);
                     this.locationMapper.update(selectedSpace.getLocation());
                     timeSlot = selectedSpace.getLastTimeSlot();
-                    Offering offering = selectedLesson.addOffering(capacity, selectedSpace, timeSlot);
-                    this.offeringMapper.create(offering);
-
+                    createOffering(selectedLesson, capacity, selectedSpace, timeSlot);
                     System.out.println("Offering created successfully:");
                     break;
                 case 'l':
@@ -269,6 +267,11 @@ public class Console {
                     break;
             }
         }
+    }
+
+    private void createOffering(Lesson lesson, int capacity, Space space, TimeSlot timeSlot) {
+        Offering offering = lesson.addOffering(capacity, space, timeSlot);
+        this.offeringMapper.create(offering);
     }
 
     // parse String input to LocalTime used for TimeSlot (startTime and endTime)
