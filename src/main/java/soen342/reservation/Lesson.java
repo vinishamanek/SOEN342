@@ -3,7 +3,6 @@ package soen342.reservation;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
-
 import soen342.location.Space;
 
 @Entity
@@ -12,7 +11,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    
     @Column(nullable = false)
     private String name;
 
