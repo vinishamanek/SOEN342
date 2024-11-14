@@ -2,19 +2,20 @@ package soen342.catalogs;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import soen342.location.Province;
 
 public class ProvinceCatalog {
     private List<Province> provinces;
     private static ProvinceCatalog instance;
 
-    private ProvinceCatalog() {
-        this.provinces = new ArrayList<>();
+    private ProvinceCatalog(List<Province> provinces) {
+        this.provinces = provinces;
     }
 
     public static ProvinceCatalog getInstance() {
         if (instance == null) {
-            instance = new ProvinceCatalog();
+            instance = new ProvinceCatalog(new ArrayList<Province>());
         }
         return instance;
     }

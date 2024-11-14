@@ -9,13 +9,13 @@ public class LocationCatalog {
     private static LocationCatalog instance;
     private List<Location> locations;
 
-    private LocationCatalog() {
-        this.locations = new ArrayList<>();
+    private LocationCatalog(List<Location> locations) {
+        this.locations = locations;
     }
 
     public static LocationCatalog getInstance() {
         if (instance == null) {
-            instance = new LocationCatalog();
+            instance = new LocationCatalog(new ArrayList<Location>());
         }
         return instance;
     }
