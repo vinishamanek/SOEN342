@@ -74,7 +74,7 @@ public class Console {
                     listOfferings(offerings);
                     break;
                 case 'l':
-                    login();
+                    promptLogin();
                     run();
                     break;
                 case 's':
@@ -161,20 +161,27 @@ public class Console {
         }
     }
 
-    private void login() {
+    private void promptLogin() {
         while (true) {
             System.out.print("\nEnter email: ");
             String email = prompt();
             System.out.print("Enter password: ");
             String password = prompt();
-            User user = this.userMapper.findByCredentials(email, password);
-            if (user != null) {
-                this.setUser(user);
-                System.out.println("Welcome " + user.getEmail());
+            System.out.println("Invalid credentials. Please try again.");
+            if (login(email, password)) {
                 return;
             }
-            System.out.println("Invalid credentials. Please try again.");
         }
+    }
+
+    private boolean login(String email, String password) {
+        User user = this.userMapper.findByCredentials(email, password);
+        if (user == null) {
+            return false;
+        }
+        this.setUser(user);
+        System.out.println("Welcome " + user.getEmail());
+        return true;
     }
 
     private void adminMenu() {
