@@ -345,7 +345,6 @@ public class Console {
     private void clientMenu() {
         Client client = (Client) this.user;
         List<Offering> availableOfferings;
-        BookingMapper bookingMapper = new BookingMapper();
         String bookingFor;
         while (true) {
             System.out.println("\n-----------------------------------");
