@@ -329,6 +329,7 @@ public class Console {
                     System.out.println("Available Offerings:");
                     Offering selectedOffering = selectFromItems(offerings);
                     instructor.selectOffering(selectedOffering);
+                    userMapper.update(instructor);
                     System.out.println("You have selected the following offering:");
                     System.out.println(selectedOffering);
                     break;
