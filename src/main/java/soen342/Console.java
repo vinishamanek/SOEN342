@@ -63,11 +63,13 @@ public class Console {
 
     private void defaultMenu() {
         while (true) {
-            System.out.println("\nMain Menu:");
+            System.out.println("\n-----------------------------------");
+            System.out.println("Main Menu:");
             System.out.println("v: View offerings");
             System.out.println("l: Login");
             System.out.println("s: Sign up");
             System.out.println("e: Exit");
+            System.out.println("-----------------------------------");
             System.out.print("Select an option: ");
             char operation = prompt().toLowerCase().charAt(0);
 
@@ -95,10 +97,12 @@ public class Console {
     }
 
     private void PromptSignup() {
-        System.out.println("\nSign Up Process");
+        System.out.println("\n-----------------------------------");
+        System.out.println("Sign Up Process");
         System.out.println("Select your role:");
         System.out.println("1. Client");
         System.out.println("2. Instructor");
+        System.out.println("-----------------------------------");
         System.out.print("Enter your choice (1 or 2): ");
 
         int roleChoice = promptInt();
@@ -192,7 +196,8 @@ public class Console {
 
     private void adminMenu() {
         while (true) {
-            System.out.println("\nAdmin Menu:");
+            System.out.println("\n-----------------------------------");
+            System.out.println("Admin Menu:");
             System.out.println("o: Create offering");
             System.out.println("l: Create lesson");
             System.out.println("v: View bookings");
@@ -200,6 +205,7 @@ public class Console {
             System.out.println("a: View accounts");
             System.out.println("d: Delete account");
             System.out.println("e: Logout");
+            System.out.println("-----------------------------------");
             System.out.print("Select an option: ");
             char operation = prompt().toLowerCase().charAt(0);
 
@@ -299,10 +305,12 @@ public class Console {
     private void instructorMenu() {
         Instructor instructor = (Instructor) this.user;
         while (true) {
-            System.out.println("\nInstructor Menu:");
+            System.out.println("\n-----------------------------------");
+            System.out.println("Instructor Menu:");
             System.out.println("v: View available offerings");
             System.out.println("s: Select offering");
             System.out.println("e: Logout");
+            System.out.println("-----------------------------------");
             System.out.print("Select an option: ");
 
             char operation = prompt().toLowerCase().charAt(0);
@@ -340,13 +348,15 @@ public class Console {
         BookingMapper bookingMapper = new BookingMapper();
         String bookingFor;
         while (true) {
-            System.out.println("\nClient Menu:");
+            System.out.println("\n-----------------------------------");
+            System.out.println("Client Menu:");
             System.out.println("a: Add underage client");
             System.out.println("o: View offerings");
             System.out.println("m: Make booking");
             System.out.println("v: View bookings");
             System.out.println("c: Cancel booking");
             System.out.println("e: Logout");
+            System.out.println("-----------------------------------");
             System.out.print("Select an option: ");
             char operation = prompt().toLowerCase().charAt(0);
 
@@ -356,7 +366,7 @@ public class Console {
                     client.addUnderageClient(underageClient);
                     client = (Client) userMapper.update(client);
                     System.out
-                            .println("Underage client " + underageClient + " added successfully for client " + client);
+                            .println(underageClient + " added successfully for guardian " + client);
                     break;
                 case 'o':
                     System.out.println(
@@ -496,7 +506,8 @@ public class Console {
         if (offerings.isEmpty()) {
             System.out.println("No offerings available.");
         } else {
-            System.out.println("\nAvailable Offerings:");
+            System.out.println("\n-----------------------------------");
+            System.out.println("Available Offerings:");
             int number = 1;
             for (Offering offering : offerings) {
                 System.out.println("Offering Number: " + number++);
@@ -549,9 +560,11 @@ public class Console {
     }
 
     private <T> void listItems(List<T> options) {
+        System.out.println("\n-----------------------------------");
         for (int i = 0; i < options.size(); i++) {
             System.out.println((i + 1) + ". " + options.get(i).toString());
         }
+        System.out.println("-----------------------------------");
     }
 
     private <T> T selectFromItems(List<T> options) {
