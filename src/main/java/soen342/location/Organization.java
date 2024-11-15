@@ -71,8 +71,6 @@ public class Organization {
                 if (offering.getCapacity() > bookingCount && !bookedOfferings.contains(offering)
                         && offering.hasInstructor()) {
                     availableOfferings.add(offering);
-                } else if (client == null && offering.hasInstructor() && !bookedOfferings.contains(offering)) {
-                    availableOfferings.add(offering);
                 }
             }
         }

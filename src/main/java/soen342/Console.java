@@ -499,6 +499,7 @@ public class Console {
         Booking underageBooking = new Booking(client, offering);
         bookingMapper.create(underageBooking);
         client.addBooking(underageBooking);
+        offering.addBooking(underageBooking);
     }
 
     private void listOfferings(List<Offering> offerings) {

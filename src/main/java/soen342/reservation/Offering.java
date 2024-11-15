@@ -96,4 +96,8 @@ public class Offering {
         return bookings;
     }
 
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+
 }
